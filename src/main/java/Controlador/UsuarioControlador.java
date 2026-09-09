@@ -6,7 +6,9 @@ package Controlador;
 
 import Modelo.Desarrollador;
 import Modelo.ProductOwner;
+import Modelo.Requerimiento;
 import Modelo.Usuario;
+import Vista.RequerimientoVista;
 import java.util.ArrayList;
 
 /**
@@ -161,6 +163,31 @@ public class UsuarioControlador {
         if (inhabilitado) {
             cargarDatosTabla();
             uvista.getTblUsuarios().clearSelection();
+        }
+    }
+
+    public void iniciarSesion() {
+        String correo = uvista.getTxtUsuario().getText();
+        String password = new String(uvista.getJPasswordField1().getPassword());
+
+        if (!correo.isEmpty() && !password.isEmpty()) {
+            boolean acceso = umodelo.validarUsuario(correo, password);
+
+            if (acceso) {
+                System.out.println("Acceso concedido");
+                uvista.dispose();
+
+                // Aquí abres tu siguiente ventana principal (ej. Requerimientos)
+                RequerimientoVista rv = new RequerimientoVista();
+                Requerimiento rm = new Requerimiento();
+                RequerimientoControlador rc = new RequerimientoControlador(rm, rv);
+                rc.iniciar();
+
+            } else {
+                System.out.println("Correo o contraseña incorrectos.");
+            }
+        } else {
+            System.out.println("Por favor complete todos los campos.");
         }
     }
 
