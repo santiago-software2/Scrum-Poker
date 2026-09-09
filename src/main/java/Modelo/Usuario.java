@@ -133,25 +133,5 @@ public abstract class Usuario {
 
     public abstract boolean inhabilitarUsuario();
 
-    public boolean validarUsuario(String correo, String password) {
-        boolean encontrado = false;
-        String sentenciaSQL = "{call sp_validar_usuario(?, ?)}";
-
-        try (CallableStatement ejecutar = conectado.prepareCall(sentenciaSQL)) {
-            ejecutar.setString(1, correo);
-            ejecutar.setString(2, password);
-
-            try (ResultSet res = ejecutar.executeQuery()) {
-                if (res.next()) {
-                    encontrado = true;
-                    this.id = res.getInt("id");
-                    this.titulo = res.getString("nombre"); // Ajusta el nombre de la columna si es diferente en tu BD
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println("Error al validar usuario con SP: " + e.getMessage());
-        }
-
-        return encontrado;
-    }
+    
 }

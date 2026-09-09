@@ -243,6 +243,31 @@ public class RequerimientoVista extends javax.swing.JFrame {
         cmbEstado.setSelectedItem(estado);
     }
 
+    // Getters para los botones y la tabla
+    public JButton getBtnCrear() {
+        return btnCrear;
+    }
+
+    public JButton getBtnMostrar() {
+        return btnMostrar;
+    }
+
+    public JButton getBtnActualizar() {
+        return btnActualizar;
+    }
+
+    public JButton getBtnInhabilitar() {
+        return btnInhabilitar;
+    }
+
+    public JTable getTblRequerimientos() {
+        return tblRequerimientos;
+    }
+
+    public DefaultTableModel getModelo() {
+        return modelo;
+    }
+
     // Método para limpiar todos los campos del formulario
     public void limpiarCampos() {
         txtTitulo.setText("");

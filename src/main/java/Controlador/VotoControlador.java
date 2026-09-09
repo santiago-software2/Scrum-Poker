@@ -18,6 +18,19 @@ public class VotoControlador {
     private VotoVista vvista;
     int cont = 1;
 
+    private int idUsuarioActual;
+    private int idRequerimientoActual;
+    
+
+// Constructor para recibir los datos de sesión y del requerimiento
+    public VotoControlador(VotoVista vvista, Voto vmodelo, int idUsuario, int idRequerimiento) {
+        this.vvista = vvista;
+        this.vmodelo = vmodelo;
+        this.idUsuarioActual = idUsuario;
+        this.idRequerimientoActual = idRequerimiento;
+        iniciar();
+    }
+
     public VotoControlador() {
     }
 
@@ -107,10 +120,27 @@ public class VotoControlador {
         }
     }
 
+    public void emitirVoto() {
+        String puntosStr = vvista.getCmbPuntos().getSelectedItem().toString();
+        int valorVoto = Integer.parseInt(puntosStr);
+
+        Voto nuevoVoto = new Voto();
+        nuevoVoto.setIdUsuario(this.idUsuarioActual);
+        nuevoVoto.setIdRequerimiento(this.idRequerimientoActual);
+        nuevoVoto.setValor(valorVoto);
+
+        boolean registrado = nuevoVoto.registrarVoto();
+
+        if (registrado) {
+            System.out.println("Voto registrado con éxito en la sesión de Scrum Poker.");
+            vvista.mostrarMensaje("¡Voto emitido!");
+        } else {
+            System.out.println("Error al registrar el voto.");
+        }
+    }
+
     public void iniciar() {
-        vvista.getBtnCrear().addActionListener(e -> agregarVoto());
         vvista.getBtnMostrar().addActionListener(e -> cargarDatosTabla());
-        vvista.getBtnActualizar().addActionListener(e -> actualizarVoto());
         vvista.getTblVotos().getSelectionModel().addListSelectionListener(e -> seleccionarFila());
         vvista.setVisible(true);
         this.cargarDatosTabla();

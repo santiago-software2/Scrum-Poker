@@ -36,7 +36,7 @@ public class UsuarioControlador {
 
         // Verificamos que umodelo no sea nulo; si lo es, instanciamos un Usuario genérico para consultar
         if (umodelo == null) {
-            umodelo = new Desarrollador(); // o la clase base que maneje la consulta
+            umodelo = new Usuario();
         }
 
         ArrayList<String[]> lUsuarios = umodelo.obtenerUsuarios();
