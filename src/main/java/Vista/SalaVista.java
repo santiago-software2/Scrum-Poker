@@ -4,17 +4,26 @@
  */
 package Vista;
 
+import javax.swing.JButton;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author SUPERTRONICA
  */
 public class SalaVista extends javax.swing.JFrame {
 
+    
+    String[] encabezado = {"ID", "Nombre", "Descripción"};
+    DefaultTableModel modelo = new DefaultTableModel(encabezado, 0);
     /**
      * Creates new form SalaVista
      */
     public SalaVista() {
         initComponents();
+        tblSalas.setModel(modelo); // Para que la tabla use tu modelo personalizado
+        tblSalas.setDefaultEditor(Object.class, null);
     }
 
     /**
@@ -30,11 +39,11 @@ public class SalaVista extends javax.swing.JFrame {
         lblTitulo1 = new javax.swing.JLabel();
         lblTitulo = new javax.swing.JLabel();
         lblRol = new javax.swing.JLabel();
-        txtTitulo = new javax.swing.JTextField();
+        txtNombre = new javax.swing.JTextField();
         btnActualizar = new javax.swing.JButton();
         btnInhabilitar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblUsuarios = new javax.swing.JTable();
+        tblSalas = new javax.swing.JTable();
         btnCrear = new javax.swing.JButton();
         txtDescripcion = new javax.swing.JTextField();
 
@@ -57,7 +66,7 @@ public class SalaVista extends javax.swing.JFrame {
 
         btnInhabilitar.setText("INHABILITAR");
 
-        tblUsuarios.setModel(new javax.swing.table.DefaultTableModel(
+        tblSalas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -76,7 +85,7 @@ public class SalaVista extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tblUsuarios);
+        jScrollPane1.setViewportView(tblSalas);
 
         btnCrear.setText("CREAR");
         btnCrear.addActionListener(new java.awt.event.ActionListener() {
@@ -98,7 +107,7 @@ public class SalaVista extends javax.swing.JFrame {
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(lblTitulo)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(lblRol)
                                     .addGap(18, 18, 18)
@@ -128,7 +137,7 @@ public class SalaVista extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTitulo)
-                    .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblRol)
@@ -158,6 +167,52 @@ public class SalaVista extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
+    
+    public JButton getBtnCrear() {
+        return btnCrear;
+    }
+
+    public JButton getBtnMostrar() {
+        return btnMostrar;
+    }
+
+    public JButton getBtnActualizar() {
+        return btnActualizar;
+    }
+
+    public JButton getBtnInhabilitar() {
+        return btnInhabilitar;
+    }
+
+    public JTable getTblSalas() {
+        return tblSalas;
+    }
+
+    public DefaultTableModel getModelo() {
+        return modelo; // Asegúrate de declarar el DefaultTableModel en la vista igual que en RequerimientoVista
+    }
+
+    public String getTxtNombre() {
+        return txtNombre.getText();
+    }
+
+    public void setTxtNombre(String nombre) {
+        txtNombre.setText(nombre);
+    }
+
+    public String getTxtDescripcion() {
+        return txtDescripcion.getText();
+    }
+
+    public void setTxtDescripcion(String descripcion) {
+        txtDescripcion.setText(descripcion);
+    }
+
+    public void limpiarCampos() {
+        txtNombre.setText("");
+        txtDescripcion.setText("");
+    }
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -199,8 +254,8 @@ public class SalaVista extends javax.swing.JFrame {
     private javax.swing.JLabel lblRol;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblTitulo1;
-    private javax.swing.JTable tblUsuarios;
+    private javax.swing.JTable tblSalas;
     private javax.swing.JTextField txtDescripcion;
-    private javax.swing.JTextField txtTitulo;
+    private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }

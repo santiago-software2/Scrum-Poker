@@ -21,6 +21,7 @@ import java.util.ArrayList;
 public class Voto {
 
     private int id;
+    private String valor;
     private Date fecha;
     private Desarrollador desarrollador;
     private Requerimiento requerimiento;
@@ -28,11 +29,14 @@ public class Voto {
     public Voto() {
     }
 
-    public Voto(int id, Date fecha, Desarrollador desarrollador, Requerimiento requerimiento) {
+    public Voto(int id, String valor, Date fecha, Desarrollador desarrollador, Requerimiento requerimiento, PreparedStatement ejecutar, ResultSet resultado) {
         this.id = id;
+        this.valor = valor;
         this.fecha = fecha;
         this.desarrollador = desarrollador;
         this.requerimiento = requerimiento;
+        this.ejecutar = ejecutar;
+        this.resultado = resultado;
     }
 
     public int getId() {
@@ -51,6 +55,10 @@ public class Voto {
         return requerimiento;
     }
 
+    public String getValor() {
+        return valor;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -65,6 +73,10 @@ public class Voto {
 
     public void setRequerimiento(Requerimiento requerimiento) {
         this.requerimiento = requerimiento;
+    }
+
+    public void setValor(String valor) {
+        this.valor = valor;
     }
 
     // INSTANCIAR LA CONEXIÓN A LA BASE DE DATOS

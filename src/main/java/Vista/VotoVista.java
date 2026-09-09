@@ -14,7 +14,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class VotoVista extends javax.swing.JFrame {
 
-    String[] encabezado = {"Nro", "Opción / Candidato", "Descripción", "Votos Totales"};
+    String[] encabezado = {"Nro", "Valor"};
     DefaultTableModel modelo = new DefaultTableModel(encabezado, 0);
 
     /**
@@ -159,24 +159,24 @@ public class VotoVista extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    // Métodos Getters y Setters para el Controlador
+    // Métodos Getters y Setters adaptados al ComboBox y componentes reales
+    public JButton getBtnCrear() {
+        return btnCrear;
+    }
+
+    public JButton getBtnMostrar() {
+        return btnMostrarResultados;
+    }
+
+    public JButton getBtnActualizar() {
+        return btnActualizar;
+    }
+
     public JButton getBtnVotar() {
         return btnVotar;
     }
 
-    public JButton getBtnMostrarResultados() {
-        return btnMostrarResultados;
-    }
-
-    public String getTxtSeleccion() {
-        return txtSeleccion.getText();
-    }
-
-    public void setTxtSeleccion(String t) {
-        txtSeleccion.setText(t);
-    }
-
-    public JTable getTblOpciones() {
+    public JTable getTblVotos() {
         return tblOpciones;
     }
 
@@ -184,8 +184,16 @@ public class VotoVista extends javax.swing.JFrame {
         return modelo;
     }
 
+    public String getTxtValor() {
+        return cmbValor.getSelectedItem().toString();
+    }
+
+    public void setTxtValor(String valor) {
+        cmbValor.setSelectedItem(valor);
+    }
+
     public void limpiarCampos() {
-        txtSeleccion.setText("");
+        cmbValor.setSelectedIndex(0);
     }
 
     public static void main(String args[]) {

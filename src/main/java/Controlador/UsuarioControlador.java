@@ -14,14 +14,17 @@ import java.util.ArrayList;
  * @author SUPERTRONICA
  */
 public class UsuarioControlador {
-    // REFERENCIA A LA VISTA
+
+    // REFERENCIA AL MODELO Y A LA VISTA
+    private Usuario umodelo;
     private UsuarioVista uvista;
 
-    // CONSTRUCTORES
+    // CONSTRUCTORS
     public UsuarioControlador() {
     }
 
     public UsuarioControlador(Usuario umodelo, UsuarioVista uvista) {
+        this.umodelo = umodelo; // <-- ¡Aquí faltaba guardar la referencia del modelo!
         this.uvista = uvista;
     }
 
@@ -29,13 +32,16 @@ public class UsuarioControlador {
     public void cargarDatosTabla() {
         uvista.getModelo().setRowCount(0);
 
-        // Instanciamos temporalmente para traer los datos generales de la BD
-        Desarrollador temp = new Desarrollador();
-        ArrayList<String[]> lUsuarios = temp.obtenerUsuarios();
-        
+        // Verificamos que umodelo no sea nulo; si lo es, instanciamos un Usuario genérico para consultar
+        if (umodelo == null) {
+            umodelo = new Desarrollador(); // o la clase base que maneje la consulta
+        }
+
+        ArrayList<String[]> lUsuarios = umodelo.obtenerUsuarios();
+
         if (lUsuarios != null) {
             for (String[] ur : lUsuarios) {
-                Object[] fila = {ur[0], ur[1], ur[2], ur[3], ur[4], ur[5], ur[6], ur[7]};
+                Object[] fila = {ur[0], ur[1], ur[2], ur[3], ur[4], ur[5], ur[6]};
                 uvista.getModelo().addRow(fila);
             }
         }
@@ -62,7 +68,10 @@ public class UsuarioControlador {
 
             nuevoUsuario.setNombre(nombres);
             nuevoUsuario.setEmail(email);
-            // Setea el resto de atributos según los setters que tengas en Usuario o sus clases hijas
+            nuevoUsuario.setTelefono(telefono);
+            nuevoUsuario.setUsuario(usuarioStr);
+            nuevoUsuario.setContrasena(contrasena);
+            nuevoUsuario.setRol(rol);
 
             int idGenerado = nuevoUsuario.insertarUsuario();
 
@@ -83,11 +92,15 @@ public class UsuarioControlador {
             String email = uvista.getModelo().getValueAt(filaSeleccionada, 2).toString();
             String telefono = uvista.getModelo().getValueAt(filaSeleccionada, 3).toString();
             String usuarioStr = uvista.getModelo().getValueAt(filaSeleccionada, 4).toString();
-            
+            String contrasena = uvista.getModelo().getValueAt(filaSeleccionada, 5).toString();
+            String rol = uvista.getModelo().getValueAt(filaSeleccionada, 6).toString();
+
             uvista.getTxtNombres().setText(nombres);
             uvista.getTxtEmail().setText(email);
             uvista.getTxtTelefono().setText(telefono);
             uvista.getTxtUsuario().setText(usuarioStr);
+            uvista.getTxtContrasena().setText(contrasena);
+            uvista.getCmbRol().setSelectedItem(rol);
         }
     }
 
@@ -101,13 +114,23 @@ public class UsuarioControlador {
 
         int id = Integer.parseInt(uvista.getModelo().getValueAt(filaSeleccionada, 0).toString());
         String nombres = uvista.getTxtNombres().getText();
+        String email = uvista.getTxtEmail().getText();
+        String telefono = uvista.getTxtTelefono().getText();
+        String usuarioStr = uvista.getTxtUsuario().getText();
+        String contrasena = uvista.getTxtContrasena().getText();
 
-        if (!nombres.isEmpty()) {
-            Desarrollador u = new Desarrollador();
-            u.setId(id);
-            u.setNombre(nombres);
+        if (!nombres.isEmpty() && !email.isEmpty() && !usuarioStr.isEmpty()) {
+            if (umodelo == null) {
+                umodelo = new Desarrollador();
+            }
+            umodelo.setId(id);
+            umodelo.setNombre(nombres);
+            umodelo.setEmail(email);
+            umodelo.setTelefono(telefono);
+            umodelo.setUsuario(usuarioStr);
+            umodelo.setContrasena(contrasena);
 
-            boolean actualizado = u.actualizarUsuario();
+            boolean actualizado = umodelo.actualizarUsuario();
 
             if (actualizado) {
                 cargarDatosTabla();
@@ -128,10 +151,12 @@ public class UsuarioControlador {
         }
 
         int id = Integer.parseInt(uvista.getModelo().getValueAt(filaSeleccionada, 0).toString());
-        Desarrollador u = new Desarrollador();
-        u.setId(id);
+        if (umodelo == null) {
+            umodelo = new Desarrollador();
+        }
+        umodelo.setId(id);
 
-        boolean inhabilitado = u.inhabilitarUsuario();
+        boolean inhabilitado = umodelo.inhabilitarUsuario();
 
         if (inhabilitado) {
             cargarDatosTabla();

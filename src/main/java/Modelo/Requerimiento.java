@@ -85,12 +85,12 @@ public class Requerimiento {
     PreparedStatement ejecutar;
     //OBTENER RESULTADOS DE LA CONSULTA
     ResultSet resultado;
-    
+
     // MÉTODOS DE TRANSACCIONABILIDAD
     public int insertarRequerimientos() {
         int idGenerado = -1;
         String sentenciaSQL = "{call sp_crear_requerimiento(?, ?, ?)}";
-        
+
         try (CallableStatement ejecutar = conectado.prepareCall(sentenciaSQL)) {
             ejecutar.setString(1, titulo);
             ejecutar.setString(2, estado);
@@ -121,10 +121,12 @@ public class Requerimiento {
             ResultSet res = ejecutar.executeQuery();
 
             while (res.next()) {
-                String[] listaRequerimientos = new String[3];
+                String[] listaRequerimientos = new String[5]; 
                 listaRequerimientos[0] = res.getInt("id") + "";
                 listaRequerimientos[1] = res.getString("titulo");
-                listaRequerimientos[2] = res.getString("estado");
+                listaRequerimientos[2] = res.getString("descripcion"); // Si lo tienes en la BD
+                listaRequerimientos[3] = res.getString("criterios");   // Si lo tienes en la BD
+                listaRequerimientos[4] = res.getString("estado");
                 lregistros.add(listaRequerimientos);
             }
             ejecutar.close();

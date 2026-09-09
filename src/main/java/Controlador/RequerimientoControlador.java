@@ -34,7 +34,7 @@ public class RequerimientoControlador {
 
         ArrayList<String[]> lRequerimientos = rmodelo.obtenerRequerimientos();
         for (String[] rq : lRequerimientos) {
-            Object[] fila = {rq[0], rq[1], rq[2]};
+            Object[] fila = {rq[0], rq[1], rq[2], rq[3]};
             rvista.getModelo().addRow(fila);
             cont++;
         }
@@ -65,7 +65,7 @@ public class RequerimientoControlador {
         int filaSeleccionada = rvista.getTblRequerimientos().getSelectedRow();
         if (filaSeleccionada != -1) {
             String titulo = rvista.getModelo().getValueAt(filaSeleccionada, 1).toString();
-            String estado = rvista.getModelo().getValueAt(filaSeleccionada, 2).toString();
+            String estado = rvista.getModelo().getValueAt(filaSeleccionada, 3).toString();
 
             rvista.setTxtTitulo(titulo);
             rvista.setTxtEstado(estado);
@@ -125,7 +125,11 @@ public class RequerimientoControlador {
         rvista.getBtnMostrar().addActionListener(e -> cargarDatosTabla());
         rvista.getBtnActualizar().addActionListener(e -> actualizarRequerimiento());
         rvista.getBtnInhabilitar().addActionListener(e -> inhabilitarRequerimiento());
-        rvista.getTblRequerimientos().getSelectionModel().addListSelectionListener(e -> seleccionarFila());
+        rvista.getTblRequerimientos().getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                seleccionarFila();
+            }
+        });
         rvista.setVisible(true);
         this.cargarDatosTabla();
     }

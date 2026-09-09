@@ -13,12 +13,11 @@ import java.util.ArrayList;
  * @author SUPERTRONICA
  */
 public class VotoControlador {
-    // REFERENCIA AL MODELO Y A LA VISTA
+
     private Voto vmodelo;
     private VotoVista vvista;
     int cont = 1;
 
-    // CONSTRUCTORES
     public VotoControlador() {
     }
 
@@ -27,19 +26,17 @@ public class VotoControlador {
         this.vvista = vvista;
     }
 
-    // CARGAR LA TABLA EN LA VISTA
     public void cargarDatosTabla() {
         vvista.getModelo().setRowCount(0);
 
         ArrayList<String[]> lVotos = vmodelo.obtenerVotos();
         for (String[] vr : lVotos) {
-            Object[] fila = {vr[0], vr[1], vr[2], vr[3]};
+            Object[] fila = {vr[0], vr[1]};
             vvista.getModelo().addRow(fila);
             cont++;
         }
     }
 
-    // RECUPERAR LOS DATOS DE LA VISTA E INSERTAR
     public void agregarVoto() {
         String valorVoto = vvista.getTxtValor();
 
@@ -66,7 +63,6 @@ public class VotoControlador {
         }
     }
 
-    // ACTUALIZAR VOTO SELECCIONADO
     public void actualizarVoto() {
         int filaSeleccionada = vvista.getTblVotos().getSelectedRow();
         if (filaSeleccionada == -1) {
@@ -93,7 +89,6 @@ public class VotoControlador {
         }
     }
 
-    // INHABILITAR VOTO SELECCIONADO
     public void inhabilitarVoto() {
         int filaSeleccionada = vvista.getTblVotos().getSelectedRow();
         if (filaSeleccionada == -1) {
@@ -116,7 +111,6 @@ public class VotoControlador {
         vvista.getBtnCrear().addActionListener(e -> agregarVoto());
         vvista.getBtnMostrar().addActionListener(e -> cargarDatosTabla());
         vvista.getBtnActualizar().addActionListener(e -> actualizarVoto());
-        vvista.getBtnInhabilitar().addActionListener(e -> inhabilitarVoto());
         vvista.getTblVotos().getSelectionModel().addListSelectionListener(e -> seleccionarFila());
         vvista.setVisible(true);
         this.cargarDatosTabla();

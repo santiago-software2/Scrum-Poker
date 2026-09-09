@@ -14,8 +14,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class RequerimientoVista extends javax.swing.JFrame {
 
-    private JTable tblRequerimientos;
-    String[] encabezado = {"Nro", "Descripción", "Criterios de Aceptación", "Estado"};
+    String[] encabezado = {"Nro", "Título", "Descripción", "Criterios", "Estado"};
     DefaultTableModel modelo = new DefaultTableModel(encabezado, 0);
 
     /**
@@ -23,8 +22,8 @@ public class RequerimientoVista extends javax.swing.JFrame {
      */
     public RequerimientoVista() {
         initComponents();
+        tblRequerimientos.setModel(modelo);
         tblRequerimientos.setDefaultEditor(Object.class, null);
-        this.modelo();
     }
 
     private void modelo() {
@@ -208,61 +207,51 @@ public class RequerimientoVista extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public JButton getBtnCrear() {
-        return btnCrear;
+    // Métodos para el Título
+    public String getTxtTitulo() {
+        return txtTitulo.getText();
     }
 
-    public JButton getBtnMostrar() {
-        return btnMostrar;
+    public void setTxtTitulo(String t) {
+        txtTitulo.setText(t);
     }
 
-    public JButton getBtnActualizar() {
-        return btnActualizar;
-    }
-
-    public JButton getBtnInhabilitar() {
-        return btnInhabilitar;
-    }
-
+    // Métodos para la Descripción
     public String getTxtDescripcion() {
         return txtDescripcion.getText();
-    }
-
-    public String getTxtCriterios() {
-        return txtCriterios.getText();
     }
 
     public void setTxtDescripcion(String t) {
         txtDescripcion.setText(t);
     }
 
+    // Métodos para los Criterios
+    public String getTxtCriterios() {
+        return txtCriterios.getText();
+    }
+
     public void setTxtCriterios(String t) {
         txtCriterios.setText(t);
     }
 
-    public JTable getTblRequerimientos() {
-        return tblRequerimientos;
+    // Métodos para manejar el ComboBox del Estado
+    public String getTxtEstado() {
+        return cmbEstado.getSelectedItem().toString();
     }
 
-    public void setTblRequerimientos(JTable tblRequerimientos) {
-        this.tblRequerimientos = tblRequerimientos;
+    public void setTxtEstado(String estado) {
+        cmbEstado.setSelectedItem(estado);
     }
 
-    public DefaultTableModel getModelo() {
-        return modelo;
-    }
-
+    // Método para limpiar todos los campos del formulario
     public void limpiarCampos() {
+        txtTitulo.setText("");
         txtDescripcion.setText("");
         txtCriterios.setText("");
+        cmbEstado.setSelectedIndex(0);
     }
 
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -271,7 +260,8 @@ public class RequerimientoVista extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(RequcmbEstadontoVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            // AQUÍ ESTABA EL ERROR DE TIPEO (Decía RequcmbEstadontoVista)
+            java.util.logging.Logger.getLogger(RequerimientoVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(RequerimientoVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
@@ -279,9 +269,7 @@ public class RequerimientoVista extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(RequerimientoVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
 
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new RequerimientoVista().setVisible(true);

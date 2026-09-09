@@ -1,16 +1,24 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
+package Vista;
 
-package com.mycompany.scrumpoker;
+import Controlador.UsuarioControlador;
+import Modelo.Desarrollador;
+import Modelo.Usuario;
+import Vista.UsuarioVista;
 
 /**
  *
  * @author SUPERTRONICA
  */
-public class ScrumPoker {
+public class Main {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        Usuario modelo = new Desarrollador();
+        UsuarioVista vista = new UsuarioVista();
+        UsuarioControlador controlador = new UsuarioControlador(modelo, vista);
+
+        controlador.iniciar(); // Esto enlaza los botones y muestra la ventana
     }
 }
