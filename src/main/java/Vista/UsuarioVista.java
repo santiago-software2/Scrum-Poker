@@ -4,17 +4,30 @@
  */
 package Vista;
 
+import javax.swing.JButton;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author SUPERTRONICA
  */
 public class UsuarioVista extends javax.swing.JFrame {
 
+    private JTable tablaUsuarios;
+    String[] encabezado = {"Nro", "Nombre", "Email", "Rol"};
+    DefaultTableModel modelo = new DefaultTableModel(encabezado, 0);
     /**
      * Creates new form UsuarioVista
      */
     public UsuarioVista() {
         initComponents();
+        tblUsuarios.setDefaultEditor(Object.class, null);
+        this.modelo();
+    }
+    
+    private void modelo() {
+        tblUsuarios.setModel(modelo);
     }
 
     /**
@@ -125,41 +138,37 @@ public class UsuarioVista extends javax.swing.JFrame {
                         .addComponent(btnVolver)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnInhabilitar, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(btnInhabilitar, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                            .addComponent(lblEmail, javax.swing.GroupLayout.Alignment.TRAILING)
-                                                            .addComponent(lblTelefono)
-                                                            .addComponent(lblNombres, javax.swing.GroupLayout.Alignment.TRAILING))
-                                                        .addComponent(lblUsuario, javax.swing.GroupLayout.Alignment.TRAILING))
-                                                    .addComponent(lblRol))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(cmbRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                        .addComponent(txtTelefono, javax.swing.GroupLayout.Alignment.TRAILING)
-                                                        .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.TRAILING)
-                                                        .addComponent(txtUsuario, javax.swing.GroupLayout.Alignment.TRAILING)
-                                                        .addComponent(txtNombres, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(lblContraseña)
-                                                .addGap(239, 239, 239)))
-                                        .addGap(74, 74, 74)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(btnActualizar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(btnMostrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 495, Short.MAX_VALUE)
-                                .addGap(77, 77, 77))))))
+                                                    .addComponent(lblEmail, javax.swing.GroupLayout.Alignment.TRAILING)
+                                                    .addComponent(lblTelefono)
+                                                    .addComponent(lblNombres, javax.swing.GroupLayout.Alignment.TRAILING))
+                                                .addComponent(lblUsuario, javax.swing.GroupLayout.Alignment.TRAILING))
+                                            .addComponent(lblRol))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(cmbRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(txtTelefono, javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(txtUsuario, javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(txtNombres, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(lblContraseña)
+                                        .addGap(239, 239, 239)))
+                                .addGap(74, 74, 74)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btnActualizar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnMostrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(82, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -201,16 +210,11 @@ public class UsuarioVista extends javax.swing.JFrame {
                         .addComponent(btnActualizar)
                         .addGap(18, 18, 18)
                         .addComponent(btnInhabilitar)))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnVolver)
-                        .addGap(10, 10, 10))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(13, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
+                .addComponent(btnVolver)
+                .addGap(10, 10, 10))
         );
 
         pack();
@@ -218,8 +222,8 @@ public class UsuarioVista extends javax.swing.JFrame {
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // TODO add your handling code here:
-        new MenuAdministrador().setVisible(true);
-        this.dispose();
+//        new MenuAdministrador().setVisible(true);
+//        this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
@@ -233,6 +237,88 @@ public class UsuarioVista extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
+    
+    public JButton getBtnCrear() {
+        return btnCrear;
+    }
+
+    public JButton getBtnMostrar() {
+        return btnMostrar;
+    }
+
+    public JButton getBtnActualizar() {
+        return btnActualizar;
+    }
+
+    public JButton getBtnInhabilitar() {
+        return btnInhabilitar;
+    }
+
+    public Object getCmbRol() {
+        return cmbRol.getSelectedItem();
+    }
+
+    public String getTxtNombres() {
+        return txtNombres.getText();
+    }
+
+    public String getTxtEmail() {
+        return txtEmail.getText();
+    }
+
+    public String getTxtTelefono() {
+        return txtTelefono.getText();
+    }
+
+    public String getTxtUsuario() {
+        return txtUsuario.getText();
+    }
+
+    public String getTxtContraseña() {
+        return txtContraseña.getText();
+    }
+
+    public void setTxtNombres(String mensaje) {
+        this.txtNombres.setText(mensaje);
+    }
+
+    public void setTxtEmail(String mensaje) {
+        this.txtEmail.setText(mensaje);
+    }
+
+    public void setTxtTelefono(String mensaje) {
+        this.txtTelefono.setText(mensaje);
+    }
+
+    public void setTxtUsuario(String mensaje) {
+        this.txtUsuario.setText(mensaje);
+    }
+
+    public void setTxtContraseña(String mensaje) {
+        this.txtContraseña.setText(mensaje);
+    }
+
+    public JTable getTblUsuarios() {
+        return tblUsuarios;
+    }
+
+    public void setTblUsuarios(JTable tblUsuarios) {
+        this.tblUsuarios = tblUsuarios;
+    }
+
+    public DefaultTableModel getModelo() {
+        return modelo;
+    }
+
+    public void limpiarCampos() {
+        txtNombres.setText("");
+        txtEmail.setText("");
+        txtTelefono.setText("");
+        txtUsuario.setText("");
+        txtContraseña.setText("");
+        cmbRol.setSelectedIndex(0);
+    }
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

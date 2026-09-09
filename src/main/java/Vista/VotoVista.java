@@ -4,17 +4,31 @@
  */
 package Vista;
 
+import javax.swing.JButton;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author SUPERTRONICA
  */
 public class VotoVista extends javax.swing.JFrame {
 
+    String[] encabezado = {"Nro", "Opción / Candidato", "Descripción", "Votos Totales"};
+    DefaultTableModel modelo = new DefaultTableModel(encabezado, 0);
+
     /**
      * Creates new form VotoVista
      */
     public VotoVista() {
         initComponents();
+        tblOpciones.setDefaultEditor(Object.class, null);
+        this.modelo();
+
+    }
+
+    private void modelo() {
+        tblOpciones.setModel(modelo);
     }
 
     /**
@@ -27,13 +41,13 @@ public class VotoVista extends javax.swing.JFrame {
     private void initComponents() {
 
         btnCrear = new javax.swing.JButton();
-        btnMostrar = new javax.swing.JButton();
+        btnMostrarResultados = new javax.swing.JButton();
         lblTitulo1 = new javax.swing.JLabel();
         lblTitulo = new javax.swing.JLabel();
         btnActualizar = new javax.swing.JButton();
-        btnInhabilitar = new javax.swing.JButton();
+        btnVotar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblUsuarios = new javax.swing.JTable();
+        tblOpciones = new javax.swing.JTable();
         cmbValor = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -45,7 +59,7 @@ public class VotoVista extends javax.swing.JFrame {
             }
         });
 
-        btnMostrar.setText("MOSTRAR");
+        btnMostrarResultados.setText("MOSTRAR");
 
         lblTitulo1.setText("GESTION DE VOTOS");
 
@@ -58,9 +72,9 @@ public class VotoVista extends javax.swing.JFrame {
             }
         });
 
-        btnInhabilitar.setText("INHABILITAR");
+        btnVotar.setText("VOTAR");
 
-        tblUsuarios.setModel(new javax.swing.table.DefaultTableModel(
+        tblOpciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -79,7 +93,7 @@ public class VotoVista extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tblUsuarios);
+        jScrollPane1.setViewportView(tblOpciones);
 
         cmbValor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "5", "8", "13", "20", "?", "☕" }));
 
@@ -101,11 +115,11 @@ public class VotoVista extends javax.swing.JFrame {
                         .addGap(63, 63, 63)
                         .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(53, 53, 53)
-                        .addComponent(btnMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnMostrarResultados, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(55, 55, 55)
                         .addComponent(btnActualizar)
                         .addGap(55, 55, 55)
-                        .addComponent(btnInhabilitar))
+                        .addComponent(btnVotar))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(31, 31, 31)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 623, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -123,9 +137,9 @@ public class VotoVista extends javax.swing.JFrame {
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCrear)
-                    .addComponent(btnMostrar)
+                    .addComponent(btnMostrarResultados)
                     .addComponent(btnActualizar)
-                    .addComponent(btnInhabilitar))
+                    .addComponent(btnVotar))
                 .addGap(44, 44, 44)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(62, Short.MAX_VALUE))
@@ -145,6 +159,35 @@ public class VotoVista extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
+    // Métodos Getters y Setters para el Controlador
+    public JButton getBtnVotar() {
+        return btnVotar;
+    }
+
+    public JButton getBtnMostrarResultados() {
+        return btnMostrarResultados;
+    }
+
+    public String getTxtSeleccion() {
+        return txtSeleccion.getText();
+    }
+
+    public void setTxtSeleccion(String t) {
+        txtSeleccion.setText(t);
+    }
+
+    public JTable getTblOpciones() {
+        return tblOpciones;
+    }
+
+    public DefaultTableModel getModelo() {
+        return modelo;
+    }
+
+    public void limpiarCampos() {
+        txtSeleccion.setText("");
+    }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -180,12 +223,12 @@ public class VotoVista extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnCrear;
-    private javax.swing.JButton btnInhabilitar;
-    private javax.swing.JButton btnMostrar;
+    private javax.swing.JButton btnMostrarResultados;
+    private javax.swing.JButton btnVotar;
     private javax.swing.JComboBox<String> cmbValor;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblTitulo1;
-    private javax.swing.JTable tblUsuarios;
+    private javax.swing.JTable tblOpciones;
     // End of variables declaration//GEN-END:variables
 }
