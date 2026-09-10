@@ -38,10 +38,10 @@ public class UsuarioControlador {
     
     // Registrar un nuevo usuario (Desarrollador o ProductOwner)
     public void registrarUsuario() {
-        String nombre = uvista.getTxtNombres();
+        String nombre = uvista.getTxtNombre();
         String email = uvista.getTxtEmail();
         String contrasena = uvista.getTxtContrasena();
-        String rol = uvista.getCmbRol().getSelectedItem().toString(); // <-- corregido
+        String rol = uvista.getCmbRol().getSelectedItem().toString(); 
 
         if (nombre.isEmpty() || email.isEmpty() || contrasena.isEmpty() || rol.isEmpty()) {
             System.out.println("Por favor complete todos los campos.");
@@ -65,7 +65,6 @@ public class UsuarioControlador {
         }
     }
 
-    // Iniciar sesión: valida credenciales y decide qué subclase instanciar según el rol
     public Usuario iniciarSesion(String email, String contrasena) {
         try (Connection con = ConexionBDD.getConexion()) {
             CallableStatement cs = con.prepareCall("{call sp_validar_usuario(?,?)}");

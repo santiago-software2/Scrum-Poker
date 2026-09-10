@@ -4,12 +4,38 @@
  */
 package Vista;
 
+import javax.swing.JButton;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
 /**
  *
  * @author SUPERTRONICA
  */
 public class InicioSesion extends javax.swing.JFrame {
 
+//    private JTextField txtEmail;
+//    private JPasswordField txtContraseña;
+//    private JButton btnAcceder;
+//    private JLabel lblMensaje;
+    
+    // Getters que usará el Controlador
+    public String getTxtEmail() {
+        return txtEmail.getText();
+    }
+
+    public String getTxtContraseña() {
+        return new String(txtContraseña.getPassword());
+    }
+
+    public JButton getBtnAcceder() {
+        return btnAcceder;
+    }
+
+    public void mostrarMensaje(String mensaje) {
+    javax.swing.JOptionPane.showMessageDialog(this, mensaje);
+}
+    
     /**
      * Creates new form InicioSesion
      */
@@ -26,32 +52,31 @@ public class InicioSesion extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblInicio = new javax.swing.JLabel();
-        lblUsuario = new javax.swing.JLabel();
+        lblIniciodeSesion = new javax.swing.JLabel();
+        lblEmail = new javax.swing.JLabel();
         lblContraseña = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        txtUsuario = new javax.swing.JTextField();
-        btnInicioSesion = new javax.swing.JButton();
+        txtContraseña = new javax.swing.JPasswordField();
+        txtEmail = new javax.swing.JTextField();
+        btnAcceder = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        lblInicio.setText("INICIO DE SESION");
+        lblIniciodeSesion.setText("INICIO DE SESION");
 
-        lblUsuario.setText("EMAIL:");
+        lblEmail.setText("EMAIL:");
 
         lblContraseña.setText("CONTRASEÑA:");
 
-        jPasswordField1.setText("jPasswordField1");
-        jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
+        txtContraseña.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jPasswordField1ActionPerformed(evt);
+                txtContraseñaActionPerformed(evt);
             }
         });
 
-        btnInicioSesion.setText("ACCEDER");
-        btnInicioSesion.addActionListener(new java.awt.event.ActionListener() {
+        btnAcceder.setText("ACCEDER");
+        btnAcceder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnInicioSesionActionPerformed(evt);
+                btnAccederActionPerformed(evt);
             }
         });
 
@@ -62,50 +87,51 @@ public class InicioSesion extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(65, 65, 65)
+                        .addGap(149, 149, 149)
+                        .addComponent(lblIniciodeSesion))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(58, 58, 58)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblContraseña)
-                            .addComponent(lblUsuario))
-                        .addGap(45, 45, 45)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtUsuario)
-                            .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(141, 141, 141)
-                        .addComponent(lblInicio))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(153, 153, 153)
-                        .addComponent(btnInicioSesion)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(lblEmail)
+                                .addGap(45, 45, 45)
+                                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(lblContraseña)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnAcceder, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap(86, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(lblInicio)
-                .addGap(36, 36, 36)
+                .addGap(22, 22, 22)
+                .addComponent(lblIniciodeSesion)
+                .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblUsuario)
-                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
+                    .addComponent(lblEmail)
+                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblContraseña))
-                .addGap(30, 30, 30)
-                .addComponent(btnInicioSesion)
-                .addContainerGap(32, Short.MAX_VALUE))
+                    .addComponent(lblContraseña)
+                    .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(35, 35, 35)
+                .addComponent(btnAcceder, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(51, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
+    private void txtContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtContraseñaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jPasswordField1ActionPerformed
+    }//GEN-LAST:event_txtContraseñaActionPerformed
 
-    private void btnInicioSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInicioSesionActionPerformed
+    private void btnAccederActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccederActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnInicioSesionActionPerformed
+    }//GEN-LAST:event_btnAccederActionPerformed
 
     /**
      * @param args the command line arguments
@@ -143,11 +169,11 @@ public class InicioSesion extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnInicioSesion;
-    private javax.swing.JPasswordField jPasswordField1;
+    private javax.swing.JButton btnAcceder;
     private javax.swing.JLabel lblContraseña;
-    private javax.swing.JLabel lblInicio;
-    private javax.swing.JLabel lblUsuario;
-    private javax.swing.JTextField txtUsuario;
+    private javax.swing.JLabel lblEmail;
+    private javax.swing.JLabel lblIniciodeSesion;
+    private javax.swing.JPasswordField txtContraseña;
+    private javax.swing.JTextField txtEmail;
     // End of variables declaration//GEN-END:variables
 }

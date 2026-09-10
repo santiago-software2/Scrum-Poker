@@ -4,9 +4,16 @@
 package Vista;
 
 import Controlador.ConexionBDD;
+import Controlador.RequerimientoControlador;
+import Controlador.SalaControlador;
 import Controlador.UsuarioControlador;
+import Controlador.VotoControlador;
 import Modelo.Desarrollador;
+import Modelo.ProductOwner;
+import Modelo.Requerimiento;
+import Modelo.Sala;
 import Modelo.Usuario;
+import Modelo.Voto;
 import Vista.UsuarioVista;
 import java.sql.Connection;
 
@@ -25,12 +32,107 @@ public class Main {
         } else {
             System.out.println("Prueba desde Main: no se pudo conectar.");
         }
+
+        new Main().inicializarLogin(); // <-- aqui se llama, creando una instancia de Main
+    } // <-- esta llave le faltaba: cierra main()
+
+    private void inicializarLogin() {
+        InicioSesion vistaLogin = new InicioSesion();
+        UsuarioControlador controlador = new UsuarioControlador();
+
+        vistaLogin.getBtnAcceder().addActionListener(e -> {
+            String email = vistaLogin.getTxtEmail();
+            String contrasena = vistaLogin.getTxtContraseña();
+
+            Usuario usuarioLogueado = controlador.iniciarSesion(email, contrasena);
+
+            if (usuarioLogueado != null) {
+                vistaLogin.mostrarMensaje("Bienvenido, " + usuarioLogueado.getNombre());
+                vistaLogin.dispose(); // cierra el login
+                abrirSala(usuarioLogueado);
+                // Aqui abres la siguiente pantalla, ej: new SalaVista().setVisible(true);
+            } else {
+                vistaLogin.mostrarMensaje("Email o contrasena incorrectos.");
+            }
+        });
+
+        vistaLogin.setVisible(true);
+    }
+
+    private void abrirSala(Usuario usuarioLogueado) {
+        SalaVista vistaSala = new SalaVista();
+        Sala salaModelo = new Sala();
+        SalaControlador salaControlador = new SalaControlador(salaModelo, vistaSala);
+
+        vistaSala.getBtnCrearSala().addActionListener(e -> {
+            if (usuarioLogueado instanceof ProductOwner) {
+                salaControlador.crearSala();
+            } else {
+                vistaSala.mostrarMensaje("Solo un ProductOwner puede crear una sala.");
+            }
+        });
+
+        vistaSala.getBtnUnirse().addActionListener(e -> {
+            Sala sala = salaControlador.unirseASala(vistaSala.getTxtCodigo());
+            if (sala != null) {
+                vistaSala.mostrarMensaje("Te uniste a la sala: " + sala.getCodigoAcceso());
+                vistaSala.dispose();
+                // Aqui abrimos RequerimientoVista o VotoVista segun el rol
+            }
+        });
+
+        vistaSala.setVisible(true);
+    }
+
+    private void abrirRequerimientos(Usuario usuarioLogueado, Sala sala) {
+        RequerimientoVista vistaReq = new RequerimientoVista();
+        Requerimiento reqModelo = new Requerimiento();
+
+        if (usuarioLogueado instanceof ProductOwner) {
+            // PO: CRUD completo, sin votar
+            RequerimientoControlador reqControlador = new RequerimientoControlador(
+                    reqModelo, vistaReq, sala, (ProductOwner) usuarioLogueado);
+            vistaReq.getBtnVotar().setVisible(false);
+            reqControlador.iniciar();
+
+        } else {
+            // Desarrollador: solo ve la lista y vota
+            vistaReq.getBtnCrear().setVisible(false);
+            vistaReq.getBtnActualizar().setVisible(false);
+            vistaReq.getBtnInhabilitar().setVisible(false);
+
+            RequerimientoControlador reqControlador = new RequerimientoControlador(
+                    reqModelo, vistaReq, sala, null);
+            reqControlador.cargarDatosTabla();
+
+            vistaReq.getBtnVotar().addActionListener(e -> {
+                int fila = vistaReq.getTblRequerimientos().getSelectedRow();
+                if (fila == -1) {
+                    vistaReq.mostrarMensaje("Selecciona un requerimiento para votar.");
+                    return;
+                }
+                int idReq = Integer.parseInt(vistaReq.getModelo().getValueAt(fila, 0).toString());
+                Requerimiento requerimientoSeleccionado = new Requerimiento();
+                requerimientoSeleccionado.setId(idReq);
+
+                abrirVotacion((Desarrollador) usuarioLogueado, requerimientoSeleccionado);
+            });
+
+            vistaReq.setVisible(true);
+        }
+
+    }
+
+    private void abrirVotacion(Desarrollador desarrollador, Requerimiento requerimiento) {
+        VotoVista vistaVoto = new VotoVista();
+        Voto votoModelo = new Voto();
+
+        VotoControlador votoControlador = new VotoControlador(
+                votoModelo, vistaVoto, desarrollador, requerimiento);
+
+        vistaVoto.getBtnVotar().addActionListener(e -> votoControlador.registrarVoto());
+        vistaVoto.getBtnRevelar().addActionListener(e -> votoControlador.revelarVotos());
+
+        vistaVoto.setVisible(true);
     }
 }
-//        Usuario modelo = new Desarrollador();
-//        UsuarioVista vista = new UsuarioVista();
-//        UsuarioControlador controlador = new UsuarioControlador(modelo, vista);
-//
-//        controlador.iniciar(); // Esto enlaza los botones y muestra la ventana
-//    }
-

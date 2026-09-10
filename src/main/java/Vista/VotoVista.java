@@ -5,8 +5,7 @@
 package Vista;
 
 import javax.swing.JButton;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.JComboBox;
 
 /**
  *
@@ -14,21 +13,31 @@ import javax.swing.table.DefaultTableModel;
  */
 public class VotoVista extends javax.swing.JFrame {
 
-    String[] encabezado = {"Nro", "Valor"};
-    DefaultTableModel modelo = new DefaultTableModel(encabezado, 0);
+    public JComboBox<String> getCmbCarta() {
+        return cmbCarta;
+    }
+
+    public JButton getBtnVotar() {
+        return btnVotar;
+    }
+
+    public JButton getBtnRevelar() {
+        return btnRevelar;
+    }
+
+    public javax.swing.table.DefaultTableModel getModelo() {
+        return (javax.swing.table.DefaultTableModel) tblVotos.getModel();
+    }
+
+    public void mostrarMensaje(String mensaje) {
+        javax.swing.JOptionPane.showMessageDialog(this, mensaje);
+    }
 
     /**
      * Creates new form VotoVista
      */
     public VotoVista() {
         initComponents();
-        tblOpciones.setDefaultEditor(Object.class, null);
-        this.modelo();
-
-    }
-
-    private void modelo() {
-        tblOpciones.setModel(modelo);
     }
 
     /**
@@ -40,46 +49,46 @@ public class VotoVista extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnMostrarResultados = new javax.swing.JButton();
-        lblTitulo1 = new javax.swing.JLabel();
         lblTitulo = new javax.swing.JLabel();
+        lblCarta = new javax.swing.JLabel();
+        cmbCarta = new javax.swing.JComboBox<>();
         btnVotar = new javax.swing.JButton();
+        btnRevelar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblOpciones = new javax.swing.JTable();
-        cmbValor = new javax.swing.JComboBox<>();
+        tblVotos = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btnMostrarResultados.setText("MOSTRAR");
+        lblTitulo.setText("VOTAR REQUERIMIENTO");
 
-        lblTitulo1.setText("GESTION DE VOTOS");
+        lblCarta.setText("CARTA:");
 
-        lblTitulo.setText("VALOR:");
+        cmbCarta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "5", "8", "13", "20", "?", "☕" }));
 
         btnVotar.setText("VOTAR");
 
-        tblOpciones.setModel(new javax.swing.table.DefaultTableModel(
+        btnRevelar.setText("REVELAR VOTO");
+
+        tblVotos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "NOMBRE", "CARTA", "FECHA"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tblOpciones);
-
-        cmbValor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "5", "8", "13", "20", "?", "☕" }));
+        jScrollPane1.setViewportView(tblVotos);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -88,40 +97,40 @@ public class VotoVista extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(279, 279, 279)
-                        .addComponent(lblTitulo1))
+                        .addGap(66, 66, 66)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(268, 268, 268)
-                        .addComponent(lblTitulo)
+                        .addGap(198, 198, 198)
+                        .addComponent(btnVotar)
+                        .addGap(42, 42, 42)
+                        .addComponent(btnRevelar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(234, 234, 234)
+                        .addComponent(lblTitulo))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lblCarta)
                         .addGap(18, 18, 18)
-                        .addComponent(cmbValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 623, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(33, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnVotar)
-                .addGap(100, 100, 100)
-                .addComponent(btnMostrarResultados, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(202, 202, 202))
+                        .addComponent(cmbCarta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(172, 172, 172)))
+                .addContainerGap(66, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(lblTitulo1)
-                .addGap(18, 18, 18)
+                .addGap(32, 32, 32)
+                .addComponent(lblTitulo)
+                .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblTitulo)
-                    .addComponent(cmbValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
+                    .addComponent(lblCarta)
+                    .addComponent(cmbCarta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnMostrarResultados)
-                    .addComponent(btnVotar))
-                .addGap(44, 44, 44)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(62, Short.MAX_VALUE))
+                    .addComponent(btnVotar)
+                    .addComponent(btnRevelar))
+                .addGap(39, 39, 39)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(64, Short.MAX_VALUE))
         );
 
         pack();
@@ -130,36 +139,6 @@ public class VotoVista extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    // Métodos Getters y Setters adaptados al ComboBox y componentes reales
-
-    public JButton getBtnMostrar() {
-        return btnMostrarResultados;
-    }
-
-    public JButton getBtnVotar() {
-        return btnVotar;
-    }
-
-    public JTable getTblVotos() {
-        return tblOpciones;
-    }
-
-    public DefaultTableModel getModelo() {
-        return modelo;
-    }
-
-    public String getTxtValor() {
-        return cmbValor.getSelectedItem().toString();
-    }
-
-    public void setTxtValor(String valor) {
-        cmbValor.setSelectedItem(valor);
-    }
-
-    public void limpiarCampos() {
-        cmbValor.setSelectedIndex(0);
-    }
-
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -193,12 +172,12 @@ public class VotoVista extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnMostrarResultados;
+    private javax.swing.JButton btnRevelar;
     private javax.swing.JButton btnVotar;
-    private javax.swing.JComboBox<String> cmbValor;
+    private javax.swing.JComboBox<String> cmbCarta;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblCarta;
     private javax.swing.JLabel lblTitulo;
-    private javax.swing.JLabel lblTitulo1;
-    private javax.swing.JTable tblOpciones;
+    private javax.swing.JTable tblVotos;
     // End of variables declaration//GEN-END:variables
 }

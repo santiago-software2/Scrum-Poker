@@ -5,8 +5,8 @@
 package Vista;
 
 import javax.swing.JButton;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -14,20 +14,41 @@ import javax.swing.table.DefaultTableModel;
  */
 public class UsuarioVista extends javax.swing.JFrame {
 
-    private JTable tablaUsuarios;
-    String[] encabezado = {"Nro", "Nombre", "Email", "Rol"};
-    DefaultTableModel modelo = new DefaultTableModel(encabezado, 0);
+    public String getTxtNombre() {
+        return txtNombre.getText();
+    }
+
+    public String getTxtEmail() {
+        return txtEmail.getText();
+    }
+
+    public String getTxtContrasena() {
+        return new String(txtContraseña.getPassword());
+    }
+
+    public JComboBox<String> getCmbRol() {
+        return cmbRol;
+    }
+
+    public JButton getBtnCrear() {
+        return btnCrear;
+    }
+
+    public void limpiarCampos() {
+        txtNombre.setText("");
+        txtEmail.setText("");
+        txtContraseña.setText("");
+    }
+
+    public void mostrarMensaje(String mensaje) {
+        JOptionPane.showMessageDialog(this, mensaje);
+    }
+    
     /**
      * Creates new form UsuarioVista
      */
     public UsuarioVista() {
         initComponents();
-        tblUsuarios.setDefaultEditor(Object.class, null);
-        this.modelo();
-    }
-    
-    private void modelo() {
-        tblUsuarios.setModel(modelo);
     }
 
     /**
@@ -39,266 +60,90 @@ public class UsuarioVista extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblRol = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblUsuarios = new javax.swing.JTable();
-        txtNombres = new javax.swing.JTextField();
-        txtEmail = new javax.swing.JTextField();
-        txtTelefono = new javax.swing.JTextField();
-        txtUsuario = new javax.swing.JTextField();
-        txtContraseña = new javax.swing.JTextField();
-        cmbRol = new javax.swing.JComboBox<>();
-        btnCrear = new javax.swing.JButton();
-        btnMostrar = new javax.swing.JButton();
         lblTitulo = new javax.swing.JLabel();
-        lblNombres = new javax.swing.JLabel();
+        lblNombre = new javax.swing.JLabel();
         lblEmail = new javax.swing.JLabel();
-        lblTelefono = new javax.swing.JLabel();
-        lblUsuario = new javax.swing.JLabel();
-        btnActualizar = new javax.swing.JButton();
         lblContraseña = new javax.swing.JLabel();
-        btnInhabilitar = new javax.swing.JButton();
+        cmbRol = new javax.swing.JComboBox<>();
+        lblRol = new javax.swing.JLabel();
+        txtNombre = new javax.swing.JTextField();
+        txtEmail = new javax.swing.JTextField();
+        btnCrear = new javax.swing.JButton();
+        txtContraseña = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        lblRol.setText("ROL:");
+        lblTitulo.setText("REGISTRO DE USUARIOS");
 
-        tblUsuarios.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(tblUsuarios);
-
-        cmbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Desarrollador", "ProductOwner" }));
-
-        btnCrear.setText("CREAR");
-        btnCrear.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCrearActionPerformed(evt);
-            }
-        });
-
-        btnMostrar.setText("MOSTRAR");
-
-        lblTitulo.setText("GESTION DE USUARIOS");
-
-        lblNombres.setText("NOMBRES:");
+        lblNombre.setText("NOMBRE:");
 
         lblEmail.setText("EMAIL:");
 
-        lblTelefono.setText("TELEFONO:");
-
-        lblUsuario.setText("USUARIO:");
-
-        btnActualizar.setText("ACTUALIZAR");
-        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnActualizarActionPerformed(evt);
-            }
-        });
-
         lblContraseña.setText("CONTRASEÑA:");
 
-        btnInhabilitar.setText("INHABILITAR");
+        cmbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Desarrollador", "ProductOwner" }));
+
+        lblRol.setText("ROL:");
+
+        btnCrear.setText("CREAR");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(85, 85, 85)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnInhabilitar, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblEmail, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(lblTelefono)
-                                            .addComponent(lblNombres, javax.swing.GroupLayout.Alignment.TRAILING))
-                                        .addComponent(lblUsuario, javax.swing.GroupLayout.Alignment.TRAILING))
-                                    .addComponent(lblRol))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cmbRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(txtTelefono, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(txtUsuario, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(txtNombres, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblContraseña)
-                                .addGap(239, 239, 239)))
-                        .addGap(74, 74, 74)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnActualizar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnMostrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(82, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblTitulo)
-                .addGap(261, 261, 261))
+                .addGap(176, 176, 176))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(110, 110, 110)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblEmail)
+                    .addComponent(lblNombre)
+                    .addComponent(lblContraseña)
+                    .addComponent(lblRol))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnCrear)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(txtNombre)
+                        .addComponent(txtEmail)
+                        .addComponent(txtContraseña, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                        .addComponent(cmbRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(143, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(17, 17, 17)
+                .addGap(20, 20, 20)
                 .addComponent(lblTitulo)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblNombres)
-                            .addComponent(txtNombres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(24, 24, 24)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblEmail)
-                            .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblTelefono)
-                            .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblUsuario)
-                            .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(24, 24, 24)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblContraseña)
-                            .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblRol)
-                            .addComponent(cmbRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(btnCrear)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnMostrar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnActualizar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnInhabilitar)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(62, 62, 62))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNombre)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblEmail)
+                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblContraseña)
+                    .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cmbRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblRol))
+                .addGap(38, 38, 38)
+                .addComponent(btnCrear)
+                .addContainerGap(63, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnCrearActionPerformed
-
-    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnActualizarActionPerformed
-
     /**
      * @param args the command line arguments
      */
-    
-    public JButton getBtnCrear() {
-        return btnCrear;
-    }
-
-    public JButton getBtnMostrar() {
-        return btnMostrar;
-    }
-
-    public JButton getBtnActualizar() {
-        return btnActualizar;
-    }
-
-    public JButton getBtnInhabilitar() {
-        return btnInhabilitar;
-    }
-
-    public Object getCmbRol() {
-        return cmbRol.getSelectedItem();
-    }
-
-    public String getTxtNombres() {
-        return txtNombres.getText();
-    }
-
-    public String getTxtEmail() {
-        return txtEmail.getText();
-    }
-
-    public String getTxtTelefono() {
-        return txtTelefono.getText();
-    }
-
-    public String getTxtUsuario() {
-        return txtUsuario.getText();
-    }
-
-    public String getTxtContraseña() {
-        return txtContraseña.getText();
-    }
-
-    public void setTxtNombres(String mensaje) {
-        this.txtNombres.setText(mensaje);
-    }
-
-    public void setTxtEmail(String mensaje) {
-        this.txtEmail.setText(mensaje);
-    }
-
-    public void setTxtTelefono(String mensaje) {
-        this.txtTelefono.setText(mensaje);
-    }
-
-    public void setTxtUsuario(String mensaje) {
-        this.txtUsuario.setText(mensaje);
-    }
-
-    public void setTxtContraseña(String mensaje) {
-        this.txtContraseña.setText(mensaje);
-    }
-
-    public JTable getTblUsuarios() {
-        return tblUsuarios;
-    }
-
-    public void setTblUsuarios(JTable tblUsuarios) {
-        this.tblUsuarios = tblUsuarios;
-    }
-
-    public DefaultTableModel getModelo() {
-        return modelo;
-    }
-
-    public void limpiarCampos() {
-        txtNombres.setText("");
-        txtEmail.setText("");
-        txtTelefono.setText("");
-        txtUsuario.setText("");
-        txtContraseña.setText("");
-        cmbRol.setSelectedIndex(0);
-    }
-    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -332,24 +177,15 @@ public class UsuarioVista extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnCrear;
-    private javax.swing.JButton btnInhabilitar;
-    private javax.swing.JButton btnMostrar;
     private javax.swing.JComboBox<String> cmbRol;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblContraseña;
     private javax.swing.JLabel lblEmail;
-    private javax.swing.JLabel lblNombres;
+    private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblRol;
-    private javax.swing.JLabel lblTelefono;
     private javax.swing.JLabel lblTitulo;
-    private javax.swing.JLabel lblUsuario;
-    private javax.swing.JTable tblUsuarios;
-    private javax.swing.JTextField txtContraseña;
+    private javax.swing.JPasswordField txtContraseña;
     private javax.swing.JTextField txtEmail;
-    private javax.swing.JTextField txtNombres;
-    private javax.swing.JTextField txtTelefono;
-    private javax.swing.JTextField txtUsuario;
+    private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }

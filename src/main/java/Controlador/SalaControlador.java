@@ -35,7 +35,7 @@ public class SalaControlador {
 
     // CREAR sala (la crea el ProductOwner)
     public void crearSala() {
-        String codigoAcceso = svista.getTxtCodigoAcceso();
+        String codigoAcceso = svista.getTxtCodigo();
 
         if (codigoAcceso.isEmpty()) {
             System.out.println("Ingrese un codigo de acceso para la sala.");
@@ -83,8 +83,8 @@ public class SalaControlador {
     }
 
     public void iniciar() {
-        svista.getBtnCrear().addActionListener(e -> crearSala());
-        svista.getBtnUnirse().addActionListener(e -> unirseASala(svista.getTxtCodigoAcceso()));
+        svista.getBtnCrearSala().addActionListener(e -> crearSala());
+        svista.getBtnUnirse().addActionListener(e -> unirseASala(svista.getTxtCodigo()));
         svista.setVisible(true);
     }
 }

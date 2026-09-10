@@ -5,8 +5,8 @@
 package Vista;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -14,20 +14,51 @@ import javax.swing.table.DefaultTableModel;
  */
 public class RequerimientoVista extends javax.swing.JFrame {
 
-    String[] encabezado = {"Nro", "Título", "Descripción", "Criterios", "Estado"};
-    DefaultTableModel modelo = new DefaultTableModel(encabezado, 0);
+    public String getTxtTitulo() {
+        return txtTitulo.getText();
+    }
+
+    public JComboBox<String> getCmbEstado() {
+        return cmbEstado;
+    }
+
+    public JTable getTblRequerimientos() {
+        return tblRequerimientos;
+    }
+
+    public javax.swing.table.DefaultTableModel getModelo() {
+        return (javax.swing.table.DefaultTableModel) tblRequerimientos.getModel();
+    }
+
+    public JButton getBtnCrear() {
+        return btnCrear;
+    }
+
+    public JButton getBtnActualizar() {
+        return btnActualizar;
+    }
+
+    public JButton getBtnInhabilitar() {
+        return btnInhabilitar;
+    }
+
+    public JButton getBtnVotar() {
+        return btnVotar;
+    }
+
+    public void limpiarCampos() {
+        txtTitulo.setText("");
+    }
+
+    public void mostrarMensaje(String mensaje) {
+        javax.swing.JOptionPane.showMessageDialog(this, mensaje);
+    }
 
     /**
      * Creates new form RequerimientoVista
      */
     public RequerimientoVista() {
         initComponents();
-        tblRequerimientos.setModel(modelo);
-        tblRequerimientos.setDefaultEditor(Object.class, null);
-    }
-
-    private void modelo() {
-        tblRequerimientos.setModel(modelo);
     }
 
     /**
@@ -39,54 +70,27 @@ public class RequerimientoVista extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblRol = new javax.swing.JLabel();
-        txtTitulo = new javax.swing.JTextField();
-        cmbEstado = new javax.swing.JComboBox<>();
-        btnCrear = new javax.swing.JButton();
-        btnMostrar = new javax.swing.JButton();
-        lblTitulo1 = new javax.swing.JLabel();
+        lblRequerimiento = new javax.swing.JLabel();
         lblTitulo = new javax.swing.JLabel();
-        btnActualizar = new javax.swing.JButton();
-        btnInhabilitar = new javax.swing.JButton();
+        txtTitulo = new javax.swing.JTextField();
+        lblEstado = new javax.swing.JLabel();
+        cmbEstado = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblRequerimientos = new javax.swing.JTable();
-        txtDescripcion = new javax.swing.JTextField();
-        lblTitulo2 = new javax.swing.JLabel();
-        txtCriterios = new javax.swing.JTextField();
-        lblTitulo3 = new javax.swing.JLabel();
+        btnCrear = new javax.swing.JButton();
+        btnActualizar = new javax.swing.JButton();
+        btnInhabilitar = new javax.swing.JButton();
+        btnVotar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        lblRol.setText("ESTADO:");
-
-        cmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pendiente", "Aprobado", "Inactivo" }));
-        cmbEstado.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbEstadoActionPerformed(evt);
-            }
-        });
-
-        btnCrear.setText("CREAR");
-        btnCrear.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCrearActionPerformed(evt);
-            }
-        });
-
-        btnMostrar.setText("MOSTRAR");
-
-        lblTitulo1.setText("GESTION DE REQUERIMIENTOS");
+        lblRequerimiento.setText("REQUERIMIENTOS");
 
         lblTitulo.setText("TITULO:");
 
-        btnActualizar.setText("ACTUALIZAR");
-        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnActualizarActionPerformed(evt);
-            }
-        });
+        lblEstado.setText("ESTADO:");
 
-        btnInhabilitar.setText("INHABILITAR");
+        cmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pendiente", "Estimado", "Inhabilitado" }));
 
         tblRequerimientos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -96,7 +100,7 @@ public class RequerimientoVista extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "TITULO", "ESTADO", "ESTIMACION"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -109,174 +113,94 @@ public class RequerimientoVista extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblRequerimientos);
 
-        lblTitulo2.setText("DESCRIPCION:");
+        btnCrear.setText("CREAR");
 
-        lblTitulo3.setText("CRITERIOS:");
+        btnActualizar.setText("ACTUALIZAR");
+
+        btnInhabilitar.setText("INHABILITAR");
+        btnInhabilitar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInhabilitarActionPerformed(evt);
+            }
+        });
+
+        btnVotar.setText("VOTAR");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(182, 182, 182)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblTitulo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblRol)
-                        .addGap(18, 18, 18)
-                        .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblTitulo2)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblTitulo3)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtCriterios, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(92, 92, 92)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(lblTitulo1)
-                        .addGap(258, 258, 258))
+                        .addComponent(lblRequerimiento)
+                        .addGap(269, 269, 269))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(53, 53, 53)
-                        .addComponent(btnMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(55, 55, 55)
-                        .addComponent(btnActualizar)
-                        .addGap(55, 55, 55)
-                        .addComponent(btnInhabilitar)
-                        .addGap(65, 65, 65))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnCrear)
+                                .addGap(37, 37, 37)
+                                .addComponent(btnActualizar)
+                                .addGap(30, 30, 30)
+                                .addComponent(btnInhabilitar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                                .addComponent(btnVotar)))
+                        .addGap(106, 106, 106))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(41, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 623, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblTitulo)
+                    .addComponent(lblEstado))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtTitulo)
+                    .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(226, 226, 226))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(lblTitulo1)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblTitulo)
-                    .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblTitulo2)
-                    .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblTitulo3)
-                    .addComponent(txtCriterios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblRol)
-                    .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(35, 35, 35)
+                .addGap(24, 24, 24)
+                .addComponent(lblRequerimiento)
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblTitulo)
+                        .addGap(38, 38, 38)
+                        .addComponent(lblEstado))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32)
+                        .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCrear)
-                    .addComponent(btnMostrar)
                     .addComponent(btnActualizar)
-                    .addComponent(btnInhabilitar))
-                .addGap(50, 50, 50)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(52, Short.MAX_VALUE))
+                    .addComponent(btnInhabilitar)
+                    .addComponent(btnVotar))
+                .addGap(40, 40, 40)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
+    private void btnInhabilitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInhabilitarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnCrearActionPerformed
-
-    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnActualizarActionPerformed
-
-    private void cmbEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbEstadoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cmbEstadoActionPerformed
+    }//GEN-LAST:event_btnInhabilitarActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    // Métodos para el Título
-    public String getTxtTitulo() {
-        return txtTitulo.getText();
-    }
-
-    public void setTxtTitulo(String t) {
-        txtTitulo.setText(t);
-    }
-
-    // Métodos para la Descripción
-    public String getTxtDescripcion() {
-        return txtDescripcion.getText();
-    }
-
-    public void setTxtDescripcion(String t) {
-        txtDescripcion.setText(t);
-    }
-
-    // Métodos para los Criterios
-    public String getTxtCriterios() {
-        return txtCriterios.getText();
-    }
-
-    public void setTxtCriterios(String t) {
-        txtCriterios.setText(t);
-    }
-
-    // Métodos para manejar el ComboBox del Estado
-    public String getTxtEstado() {
-        return cmbEstado.getSelectedItem().toString();
-    }
-
-    public void setTxtEstado(String estado) {
-        cmbEstado.setSelectedItem(estado);
-    }
-
-    // Getters para los botones y la tabla
-    public JButton getBtnCrear() {
-        return btnCrear;
-    }
-
-    public JButton getBtnMostrar() {
-        return btnMostrar;
-    }
-
-    public JButton getBtnActualizar() {
-        return btnActualizar;
-    }
-
-    public JButton getBtnInhabilitar() {
-        return btnInhabilitar;
-    }
-
-    public JTable getTblRequerimientos() {
-        return tblRequerimientos;
-    }
-
-    public DefaultTableModel getModelo() {
-        return modelo;
-    }
-
-    // Método para limpiar todos los campos del formulario
-    public void limpiarCampos() {
-        txtTitulo.setText("");
-        txtDescripcion.setText("");
-        txtCriterios.setText("");
-        cmbEstado.setSelectedIndex(0);
-    }
-
     public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -285,7 +209,6 @@ public class RequerimientoVista extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            // AQUÍ ESTABA EL ERROR DE TIPEO (Decía RequcmbEstadontoVista)
             java.util.logging.Logger.getLogger(RequerimientoVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(RequerimientoVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
@@ -294,7 +217,9 @@ public class RequerimientoVista extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(RequerimientoVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
 
+        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new RequerimientoVista().setVisible(true);
@@ -306,17 +231,13 @@ public class RequerimientoVista extends javax.swing.JFrame {
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnCrear;
     private javax.swing.JButton btnInhabilitar;
-    private javax.swing.JButton btnMostrar;
+    private javax.swing.JButton btnVotar;
     private javax.swing.JComboBox<String> cmbEstado;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblRol;
+    private javax.swing.JLabel lblEstado;
+    private javax.swing.JLabel lblRequerimiento;
     private javax.swing.JLabel lblTitulo;
-    private javax.swing.JLabel lblTitulo1;
-    private javax.swing.JLabel lblTitulo2;
-    private javax.swing.JLabel lblTitulo3;
     private javax.swing.JTable tblRequerimientos;
-    private javax.swing.JTextField txtCriterios;
-    private javax.swing.JTextField txtDescripcion;
     private javax.swing.JTextField txtTitulo;
     // End of variables declaration//GEN-END:variables
 }

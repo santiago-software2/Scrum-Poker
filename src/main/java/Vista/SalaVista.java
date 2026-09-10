@@ -5,8 +5,6 @@
 package Vista;
 
 import javax.swing.JButton;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -14,16 +12,27 @@ import javax.swing.table.DefaultTableModel;
  */
 public class SalaVista extends javax.swing.JFrame {
 
-    
-    String[] encabezado = {"ID", "Nombre", "Descripción"};
-    DefaultTableModel modelo = new DefaultTableModel(encabezado, 0);
+    public String getTxtCodigo() {
+        return txtCodigo.getText();
+    }
+
+    public JButton getBtnCrearSala() {
+        return btnCrearSala;
+    }
+
+    public JButton getBtnUnirse() {
+        return btnUnirse;
+    }
+
+    public void mostrarMensaje(String mensaje) {
+        javax.swing.JOptionPane.showMessageDialog(this, mensaje);
+    }
+
     /**
      * Creates new form SalaVista
      */
     public SalaVista() {
         initComponents();
-        tblSalas.setModel(modelo); // Para que la tabla use tu modelo personalizado
-        tblSalas.setDefaultEditor(Object.class, null);
     }
 
     /**
@@ -35,184 +44,63 @@ public class SalaVista extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnMostrar = new javax.swing.JButton();
-        lblTitulo1 = new javax.swing.JLabel();
-        lblTitulo = new javax.swing.JLabel();
-        lblRol = new javax.swing.JLabel();
-        txtNombre = new javax.swing.JTextField();
-        btnActualizar = new javax.swing.JButton();
-        btnInhabilitar = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblSalas = new javax.swing.JTable();
-        btnCrear = new javax.swing.JButton();
-        txtDescripcion = new javax.swing.JTextField();
+        lblSala = new javax.swing.JLabel();
+        lblCodigo = new javax.swing.JLabel();
+        txtCodigo = new javax.swing.JTextField();
+        btnUnirse = new javax.swing.JButton();
+        btnCrearSala = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btnMostrar.setText("MOSTRAR");
+        lblSala.setText("SALA");
 
-        lblTitulo1.setText("GESTION DE SALAS");
+        lblCodigo.setText("CODIGO:");
 
-        lblTitulo.setText("NOMBRE:");
+        btnUnirse.setText("UNIRSE");
 
-        lblRol.setText("DESCRIPCION:");
-
-        btnActualizar.setText("ACTUALIZAR");
-        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnActualizarActionPerformed(evt);
-            }
-        });
-
-        btnInhabilitar.setText("INHABILITAR");
-
-        tblSalas.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(tblSalas);
-
-        btnCrear.setText("CREAR");
-        btnCrear.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCrearActionPerformed(evt);
-            }
-        });
+        btnCrearSala.setText("CREAR SALA");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(142, 142, 142)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(66, 66, 66)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(lblTitulo)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(lblRol)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(txtDescripcion)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(53, 53, 53)
-                                .addComponent(btnMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(55, 55, 55)
-                                .addComponent(btnActualizar)))
-                        .addGap(55, 55, 55)
-                        .addComponent(btnInhabilitar))
+                        .addComponent(lblCodigo)
+                        .addGap(33, 33, 33)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblSala)
+                            .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 623, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(39, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lblTitulo1)
-                .addGap(287, 287, 287))
+                        .addComponent(btnUnirse)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnCrearSala)))
+                .addContainerGap(122, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(lblTitulo1)
-                .addGap(18, 18, 18)
+                .addGap(28, 28, 28)
+                .addComponent(lblSala)
+                .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblTitulo)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(lblCodigo)
+                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(52, 52, 52)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblRol)
-                    .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCrear)
-                    .addComponent(btnMostrar)
-                    .addComponent(btnActualizar)
-                    .addComponent(btnInhabilitar))
-                .addGap(49, 49, 49)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(81, Short.MAX_VALUE))
+                    .addComponent(btnUnirse)
+                    .addComponent(btnCrearSala))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnActualizarActionPerformed
-
-    private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnCrearActionPerformed
-
     /**
      * @param args the command line arguments
      */
-    
-    public JButton getBtnCrear() {
-        return btnCrear;
-    }
-
-    public JButton getBtnMostrar() {
-        return btnMostrar;
-    }
-
-    public JButton getBtnActualizar() {
-        return btnActualizar;
-    }
-
-    public JButton getBtnInhabilitar() {
-        return btnInhabilitar;
-    }
-
-    public JTable getTblSalas() {
-        return tblSalas;
-    }
-
-    public DefaultTableModel getModelo() {
-        return modelo; // Asegúrate de declarar el DefaultTableModel en la vista igual que en RequerimientoVista
-    }
-
-    public String getTxtNombre() {
-        return txtNombre.getText();
-    }
-
-    public void setTxtNombre(String nombre) {
-        txtNombre.setText(nombre);
-    }
-
-    public String getTxtDescripcion() {
-        return txtDescripcion.getText();
-    }
-
-    public void setTxtDescripcion(String descripcion) {
-        txtDescripcion.setText(descripcion);
-    }
-
-    public void limpiarCampos() {
-        txtNombre.setText("");
-        txtDescripcion.setText("");
-    }
-    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -246,16 +134,10 @@ public class SalaVista extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnActualizar;
-    private javax.swing.JButton btnCrear;
-    private javax.swing.JButton btnInhabilitar;
-    private javax.swing.JButton btnMostrar;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblRol;
-    private javax.swing.JLabel lblTitulo;
-    private javax.swing.JLabel lblTitulo1;
-    private javax.swing.JTable tblSalas;
-    private javax.swing.JTextField txtDescripcion;
-    private javax.swing.JTextField txtNombre;
+    private javax.swing.JButton btnCrearSala;
+    private javax.swing.JButton btnUnirse;
+    private javax.swing.JLabel lblCodigo;
+    private javax.swing.JLabel lblSala;
+    private javax.swing.JTextField txtCodigo;
     // End of variables declaration//GEN-END:variables
 }
