@@ -4,8 +4,15 @@
  */
 package Controlador;
 
+import Modelo.ProductOwner;
 import Modelo.Requerimiento;
+import Modelo.Sala;
 import Vista.RequerimientoVista;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 
 /**
@@ -13,66 +20,76 @@ import java.util.ArrayList;
  * @author SUPERTRONICA
  */
 public class RequerimientoControlador {
-    
+
     // REFERENCIA A MODELO Y A LA VISTA
     private Requerimiento rmodelo;
     private RequerimientoVista rvista;
-    int cont = 1;
-    
+    private Sala salaActual;
+    private ProductOwner productOwnerActual;
+//    int cont = 1;
+
     // CONSTRUCTORES
     public RequerimientoControlador() {
     }
 
-    public RequerimientoControlador(Requerimiento rmodelo, RequerimientoVista rvista) {
+    public RequerimientoControlador(Requerimiento rmodelo, RequerimientoVista rvista,
+            Sala salaActual, ProductOwner productOwnerActual) {
         this.rmodelo = rmodelo;
         this.rvista = rvista;
-    }
-    
-    // CARGAR LA TABLA EN LA VISTA
-    public void cargarDatosTabla() {
-        rvista.getModelo().setRowCount(0);
-
-        ArrayList<String[]> lRequerimientos = rmodelo.obtenerRequerimientos();
-        for (String[] rq : lRequerimientos) {
-            Object[] fila = {rq[0], rq[1], rq[2], rq[3]};
-            rvista.getModelo().addRow(fila);
-            cont++;
-        }
+        this.salaActual = salaActual;
+        this.productOwnerActual = productOwnerActual;
     }
 
-    // RECUPERAR LOS DATOS DE LA VISTA E INSERTAR
-    public void agregarRequerimiento() {
+    // CREAR requerimiento
+    public void crearRequerimiento() {
         String titulo = rvista.getTxtTitulo();
-        String estado = rvista.getTxtEstado();
 
-        if (!titulo.isEmpty() && !estado.isEmpty()) {
-            rmodelo.setTitulo(titulo);
-            rmodelo.setEstado(estado);
+        if (titulo.isEmpty()) {
+            System.out.println("Por favor ingrese el titulo del requerimiento.");
+            return;
+        }
 
-            int idGenerado = rmodelo.insertarRequerimientos();
+        try (Connection con = ConexionBDD.getConexion()) {
+            CallableStatement cs = con.prepareCall("{call sp_crear_requerimiento(?,?,?,?)}");
+            cs.setInt(1, salaActual.getId());
+            cs.setInt(2, productOwnerActual.getId());
+            cs.setString(3, titulo);
+            cs.registerOutParameter(4, Types.INTEGER);
+            cs.execute();
 
-            if (idGenerado > -1) {
+            if (cs.getInt(4) > 0) {
                 cargarDatosTabla();
                 rvista.limpiarCampos();
             }
-
-        } else {
-            System.out.println("Por favor complete todos los campos.");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
-    public void seleccionarFila() {
-        int filaSeleccionada = rvista.getTblRequerimientos().getSelectedRow();
-        if (filaSeleccionada != -1) {
-            String titulo = rvista.getModelo().getValueAt(filaSeleccionada, 1).toString();
-            String estado = rvista.getModelo().getValueAt(filaSeleccionada, 3).toString();
+    // LISTAR requerimientos de la sala actual
+    public void cargarDatosTabla() {
+        rvista.getModelo().setRowCount(0);
 
-            rvista.setTxtTitulo(titulo);
-            rvista.setTxtEstado(estado);
+        try (Connection con = ConexionBDD.getConexion()) {
+            CallableStatement cs = con.prepareCall("{call sp_listar_requerimientos(?)}");
+            cs.setInt(1, salaActual.getId());
+            ResultSet rs = cs.executeQuery();
+
+            while (rs.next()) {
+                Object[] fila = {
+                    rs.getInt("id"),
+                    rs.getString("titulo"),
+                    rs.getString("estado"),
+                    rs.getString("estimacion_final")
+                };
+                rvista.getModelo().addRow(fila);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
-    // ACTUALIZAR REQUERIMIENTO SELECCIONADO
+    // ACTUALIZAR requerimiento seleccionado
     public void actualizarRequerimiento() {
         int filaSeleccionada = rvista.getTblRequerimientos().getSelectedRow();
         if (filaSeleccionada == -1) {
@@ -82,26 +99,27 @@ public class RequerimientoControlador {
 
         int id = Integer.parseInt(rvista.getModelo().getValueAt(filaSeleccionada, 0).toString());
         String titulo = rvista.getTxtTitulo();
-        String estado = rvista.getTxtEstado();
+        String estado = rvista.getCmbEstado().getSelectedItem().toString();
 
-        if (!titulo.isEmpty() && !estado.isEmpty()) {
-            rmodelo.setId(id);
-            rmodelo.setTitulo(titulo);
-            rmodelo.setEstado(estado);
+        try (Connection con = ConexionBDD.getConexion()) {
+            CallableStatement cs = con.prepareCall("{call sp_actualizar_requerimiento(?,?,?,?)}");
+            cs.setInt(1, id);
+            cs.setString(2, titulo);
+            cs.setString(3, estado);
+            cs.registerOutParameter(4, Types.INTEGER);
+            cs.execute();
 
-            boolean actualizado = rmodelo.actualizarRequerimiento();
-
-            if (actualizado) {
+            if (cs.getInt(4) > 0) {
                 cargarDatosTabla();
                 rvista.limpiarCampos();
                 rvista.getTblRequerimientos().clearSelection();
             }
-        } else {
-            System.out.println("Por favor complete todos los campos.");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
-    // INHABILITAR REQUERIMIENTO SELECCIONADO
+    // INHABILITAR requerimiento seleccionado
     public void inhabilitarRequerimiento() {
         int filaSeleccionada = rvista.getTblRequerimientos().getSelectedRow();
         if (filaSeleccionada == -1) {
@@ -110,27 +128,29 @@ public class RequerimientoControlador {
         }
 
         int id = Integer.parseInt(rvista.getModelo().getValueAt(filaSeleccionada, 0).toString());
-        rmodelo.setId(id);
 
-        boolean inhabilitado = rmodelo.inhabilitarRequerimiento();
+        try (Connection con = ConexionBDD.getConexion()) {
+            CallableStatement cs = con.prepareCall("{call sp_inhabilitar_requerimiento(?,?)}");
+            cs.setInt(1, id);
+            cs.registerOutParameter(2, Types.INTEGER);
+            cs.execute();
 
-        if (inhabilitado) {
-            cargarDatosTabla();
-            rvista.getTblRequerimientos().clearSelection();
+            if (cs.getInt(2) > 0) {
+                cargarDatosTabla();
+                rvista.getTblRequerimientos().clearSelection();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
     public void iniciar() {
-        rvista.getBtnCrear().addActionListener(e -> agregarRequerimiento());
-        rvista.getBtnMostrar().addActionListener(e -> cargarDatosTabla());
+        rvista.getBtnCrear().addActionListener(e -> crearRequerimiento());
         rvista.getBtnActualizar().addActionListener(e -> actualizarRequerimiento());
         rvista.getBtnInhabilitar().addActionListener(e -> inhabilitarRequerimiento());
         rvista.getTblRequerimientos().getSelectionModel().addListSelectionListener(e -> {
-            if (!e.getValueIsAdjusting()) {
-                seleccionarFila();
-            }
         });
         rvista.setVisible(true);
-        this.cargarDatosTabla();
+        cargarDatosTabla();
     }
 }

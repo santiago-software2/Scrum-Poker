@@ -4,8 +4,14 @@
  */
 package Controlador;
 
+import Modelo.Desarrollador;
+import Modelo.Requerimiento;
 import Modelo.Voto;
 import Vista.VotoVista;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -16,133 +22,68 @@ public class VotoControlador {
 
     private Voto vmodelo;
     private VotoVista vvista;
-    int cont = 1;
-
-    private int idUsuarioActual;
-    private int idRequerimientoActual;
-    
-
-// Constructor para recibir los datos de sesión y del requerimiento
-    public VotoControlador(VotoVista vvista, Voto vmodelo, int idUsuario, int idRequerimiento) {
-        this.vvista = vvista;
-        this.vmodelo = vmodelo;
-        this.idUsuarioActual = idUsuario;
-        this.idRequerimientoActual = idRequerimiento;
-        iniciar();
-    }
+    private Desarrollador desarrolladorActual;
+    private Requerimiento requerimientoActual;
+//    int cont = 1;
 
     public VotoControlador() {
     }
 
-    public VotoControlador(Voto vmodelo, VotoVista vvista) {
+    public VotoControlador(Voto vmodelo, VotoVista vvista,
+            Desarrollador desarrolladorActual, Requerimiento requerimientoActual) {
         this.vmodelo = vmodelo;
         this.vvista = vvista;
+        this.desarrolladorActual = desarrolladorActual;
+        this.requerimientoActual = requerimientoActual;
     }
 
-    public void cargarDatosTabla() {
+    // REGISTRAR (o actualizar) el voto del desarrollador actual
+    public void registrarVoto() {
+        String carta = vvista.getCmbCarta().getSelectedItem().toString();
+
+        if (carta.isEmpty()) {
+            System.out.println("Seleccione una carta para votar.");
+            return;
+        }
+
+        try (Connection con = ConexionBDD.getConexion()) {
+            CallableStatement cs = con.prepareCall("{call sp_registrar_voto(?,?,?)}");
+            cs.setInt(1, requerimientoActual.getId());
+            cs.setInt(2, desarrolladorActual.getId());
+            cs.setString(3, carta);
+            cs.execute();
+
+            vvista.mostrarMensaje("Voto registrado correctamente.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // REVELAR los votos del requerimiento actual
+    public void revelarVotos() {
         vvista.getModelo().setRowCount(0);
 
-        ArrayList<String[]> lVotos = vmodelo.obtenerVotos();
-        for (String[] vr : lVotos) {
-            Object[] fila = {vr[0], vr[1]};
-            vvista.getModelo().addRow(fila);
-            cont++;
-        }
-    }
+        try (Connection con = ConexionBDD.getConexion()) {
+            CallableStatement cs = con.prepareCall("{call sp_revelar_votos(?)}");
+            cs.setInt(1, requerimientoActual.getId());
+            ResultSet rs = cs.executeQuery();
 
-    public void agregarVoto() {
-        String valorVoto = vvista.getTxtValor();
-
-        if (!valorVoto.isEmpty()) {
-            vmodelo.setValor(valorVoto);
-
-            int idGenerado = vmodelo.insertarVotos();
-
-            if (idGenerado > -1) {
-                cargarDatosTabla();
-                vvista.limpiarCampos();
+            while (rs.next()) {
+                Object[] fila = {
+                    rs.getString("nombre"),
+                    rs.getString("carta"),
+                    rs.getTimestamp("fecha")
+                };
+                vvista.getModelo().addRow(fila);
             }
-
-        } else {
-            System.out.println("Por favor complete todos los campos.");
-        }
-    }
-
-    public void seleccionarFila() {
-        int filaSeleccionada = vvista.getTblVotos().getSelectedRow();
-        if (filaSeleccionada != -1) {
-            String valor = vvista.getModelo().getValueAt(filaSeleccionada, 1).toString();
-            vvista.setTxtValor(valor);
-        }
-    }
-
-    public void actualizarVoto() {
-        int filaSeleccionada = vvista.getTblVotos().getSelectedRow();
-        if (filaSeleccionada == -1) {
-            System.out.println("Seleccione un voto de la tabla para actualizar.");
-            return;
-        }
-
-        int id = Integer.parseInt(vvista.getModelo().getValueAt(filaSeleccionada, 0).toString());
-        String valor = vvista.getTxtValor();
-
-        if (!valor.isEmpty()) {
-            vmodelo.setId(id);
-            vmodelo.setValor(valor);
-
-            boolean actualizado = vmodelo.actualizarVoto();
-
-            if (actualizado) {
-                cargarDatosTabla();
-                vvista.limpiarCampos();
-                vvista.getTblVotos().clearSelection();
-            }
-        } else {
-            System.out.println("Por favor complete todos los campos.");
-        }
-    }
-
-    public void inhabilitarVoto() {
-        int filaSeleccionada = vvista.getTblVotos().getSelectedRow();
-        if (filaSeleccionada == -1) {
-            System.out.println("Seleccione un voto de la tabla para inhabilitar.");
-            return;
-        }
-
-        int id = Integer.parseInt(vvista.getModelo().getValueAt(filaSeleccionada, 0).toString());
-        vmodelo.setId(id);
-
-        boolean inhabilitado = vmodelo.inhabilitarVoto();
-
-        if (inhabilitado) {
-            cargarDatosTabla();
-            vvista.getTblVotos().clearSelection();
-        }
-    }
-
-    public void emitirVoto() {
-        String puntosStr = vvista.getCmbPuntos().getSelectedItem().toString();
-        int valorVoto = Integer.parseInt(puntosStr);
-
-        Voto nuevoVoto = new Voto();
-        nuevoVoto.setIdUsuario(this.idUsuarioActual);
-        nuevoVoto.setIdRequerimiento(this.idRequerimientoActual);
-        nuevoVoto.setValor(valorVoto);
-
-        boolean registrado = nuevoVoto.registrarVoto();
-
-        if (registrado) {
-            System.out.println("Voto registrado con éxito en la sesión de Scrum Poker.");
-            vvista.mostrarMensaje("¡Voto emitido!");
-        } else {
-            System.out.println("Error al registrar el voto.");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
     public void iniciar() {
-        vvista.getBtnMostrar().addActionListener(e -> cargarDatosTabla());
-        vvista.getTblVotos().getSelectionModel().addListSelectionListener(e -> seleccionarFila());
+        vvista.getBtnVotar().addActionListener(e -> registrarVoto());
+        vvista.getBtnRevelar().addActionListener(e -> revelarVotos());
         vvista.setVisible(true);
-        this.cargarDatosTabla();
     }
 }

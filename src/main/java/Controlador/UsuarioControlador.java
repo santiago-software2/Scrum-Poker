@@ -10,6 +10,11 @@ import Modelo.Requerimiento;
 import Modelo.Usuario;
 import Vista.RequerimientoVista;
 import Vista.UsuarioVista;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 
 /**
@@ -21,184 +26,72 @@ public class UsuarioControlador {
     // REFERENCIA AL MODELO Y A LA VISTA
     private Usuario umodelo;
     private UsuarioVista uvista;
-
+//    int cont = 1;
     // CONSTRUCTORS
     public UsuarioControlador() {
     }
 
     public UsuarioControlador(Usuario umodelo, UsuarioVista uvista) {
-        this.umodelo = umodelo; // <-- ¡Aquí faltaba guardar la referencia del modelo!
+        this.umodelo = umodelo;
         this.uvista = uvista;
     }
+    
+    // Registrar un nuevo usuario (Desarrollador o ProductOwner)
+    public void registrarUsuario() {
+        String nombre = uvista.getTxtNombres();
+        String email = uvista.getTxtEmail();
+        String contrasena = uvista.getTxtContrasena();
+        String rol = uvista.getCmbRol().getSelectedItem().toString(); // <-- corregido
 
-//    // CARGAR LA TABLA EN LA VISTA
-//    public void cargarDatosTabla() {
-//        uvista.getModelo().setRowCount(0);
-//
-//        // Verificamos que umodelo no sea nulo; si lo es, instanciamos un Usuario genérico para consultar
-//        if (umodelo == null) {
-//            umodelo = new Usuario();
-//        }
-//
-//        ArrayList<String[]> lUsuarios = umodelo.obtenerUsuarios();
-//
-//        if (lUsuarios != null) {
-//            for (String[] ur : lUsuarios) {
-//                Object[] fila = {ur[0], ur[1], ur[2], ur[3], ur[4], ur[5], ur[6]};
-//                uvista.getModelo().addRow(fila);
-//            }
-//        }
-//    }
-//
-//    // RECUPERAR LOS DATOS DE LA VISTA E INSERTAR
-//    public void agregarUsuario() {
-//        String nombres = uvista.getTxtNombres().getText();
-//        String email = uvista.getTxtEmail().getText();
-//        String telefono = uvista.getTxtTelefono().getText();
-//        String usuarioStr = uvista.getTxtUsuario().getText();
-//        String contrasena = uvista.getTxtContrasena().getText();
-//        String rol = uvista.getCmbRol().getSelectedItem().toString();
-//
-//        if (!nombres.isEmpty() && !email.isEmpty() && !usuarioStr.isEmpty() && !contrasena.isEmpty()) {
-//            Usuario nuevoUsuario;
-//
-//            // Dependiendo del rol seleccionado, creamos una instancia hija
-//            if (rol.equalsIgnoreCase("Desarrollador")) {
-//                nuevoUsuario = new Desarrollador();
-//            } else {
-//                nuevoUsuario = new ProductOwner();
-//            }
-//
-//            nuevoUsuario.setNombre(nombres);
-//            nuevoUsuario.setEmail(email);
-//            nuevoUsuario.setTelefono(telefono);
-//            nuevoUsuario.setUsuario(usuarioStr);
-//            nuevoUsuario.setContrasena(contrasena);
-//            nuevoUsuario.setRol(rol);
-//
-//            int idGenerado = nuevoUsuario.insertarUsuario();
-//
-//            if (idGenerado > -1) {
-//                cargarDatosTabla();
-//                uvista.limpiarCampos();
-//            }
-//
-//        } else {
-//            System.out.println("Por favor complete los campos obligatorios.");
-//        }
-//    }
-//
-//    public void seleccionarFila() {
-//        int filaSeleccionada = uvista.getTblUsuarios().getSelectedRow();
-//        if (filaSeleccionada != -1) {
-//            String nombres = uvista.getModelo().getValueAt(filaSeleccionada, 1).toString();
-//            String email = uvista.getModelo().getValueAt(filaSeleccionada, 2).toString();
-//            String telefono = uvista.getModelo().getValueAt(filaSeleccionada, 3).toString();
-//            String usuarioStr = uvista.getModelo().getValueAt(filaSeleccionada, 4).toString();
-//            String contrasena = uvista.getModelo().getValueAt(filaSeleccionada, 5).toString();
-//            String rol = uvista.getModelo().getValueAt(filaSeleccionada, 6).toString();
-//
-//            uvista.getTxtNombres().setText(nombres);
-//            uvista.getTxtEmail().setText(email);
-//            uvista.getTxtTelefono().setText(telefono);
-//            uvista.getTxtUsuario().setText(usuarioStr);
-//            uvista.getTxtContrasena().setText(contrasena);
-//            uvista.getCmbRol().setSelectedItem(rol);
-//        }
-//    }
-//
-//    // ACTUALIZAR USUARIO SELECCIONADO
-//    public void actualizarUsuario() {
-//        int filaSeleccionada = uvista.getTblUsuarios().getSelectedRow();
-//        if (filaSeleccionada == -1) {
-//            System.out.println("Seleccione un usuario de la tabla para actualizar.");
-//            return;
-//        }
-//
-//        int id = Integer.parseInt(uvista.getModelo().getValueAt(filaSeleccionada, 0).toString());
-//        String nombres = uvista.getTxtNombres().getText();
-//        String email = uvista.getTxtEmail().getText();
-//        String telefono = uvista.getTxtTelefono().getText();
-//        String usuarioStr = uvista.getTxtUsuario().getText();
-//        String contrasena = uvista.getTxtContrasena().getText();
-//
-//        if (!nombres.isEmpty() && !email.isEmpty() && !usuarioStr.isEmpty()) {
-//            if (umodelo == null) {
-//                umodelo = new Desarrollador();
-//            }
-//            umodelo.setId(id);
-//            umodelo.setNombre(nombres);
-//            umodelo.setEmail(email);
-//            umodelo.setTelefono(telefono);
-//            umodelo.setUsuario(usuarioStr);
-//            umodelo.setContrasena(contrasena);
-//
-//            boolean actualizado = umodelo.actualizarUsuario();
-//
-//            if (actualizado) {
-//                cargarDatosTabla();
-//                uvista.limpiarCampos();
-//                uvista.getTblUsuarios().clearSelection();
-//            }
-//        } else {
-//            System.out.println("Por favor complete los campos requeridos.");
-//        }
-//    }
-//
-//    // INHABILITAR USUARIO SELECCIONADO
-//    public void inhabilitarUsuario() {
-//        int filaSeleccionada = uvista.getTblUsuarios().getSelectedRow();
-//        if (filaSeleccionada == -1) {
-//            System.out.println("Seleccione un usuario de la tabla para inhabilitar.");
-//            return;
-//        }
-//
-//        int id = Integer.parseInt(uvista.getModelo().getValueAt(filaSeleccionada, 0).toString());
-//        if (umodelo == null) {
-//            umodelo = new Desarrollador();
-//        }
-//        umodelo.setId(id);
-//
-//        boolean inhabilitado = umodelo.inhabilitarUsuario();
-//
-//        if (inhabilitado) {
-//            cargarDatosTabla();
-//            uvista.getTblUsuarios().clearSelection();
-//        }
-//    }
-//
-//    public void iniciarSesion() {
-//        String correo = uvista.getTxtUsuario().getText();
-//        String password = new String(uvista.getJPasswordField1().getPassword());
-//
-//        if (!correo.isEmpty() && !password.isEmpty()) {
-//            boolean acceso = umodelo.validarUsuario(correo, password);
-//
-//            if (acceso) {
-//                System.out.println("Acceso concedido");
-//                uvista.dispose();
-//
-//                // Aquí abres tu siguiente ventana principal (ej. Requerimientos)
-//                RequerimientoVista rv = new RequerimientoVista();
-//                Requerimiento rm = new Requerimiento();
-//                RequerimientoControlador rc = new RequerimientoControlador(rm, rv);
-//                rc.iniciar();
-//
-//            } else {
-//                System.out.println("Correo o contraseña incorrectos.");
-//            }
-//        } else {
-//            System.out.println("Por favor complete todos los campos.");
-//        }
-//    }
-//
-//    public void iniciar() {
-//        uvista.getBtnCrear().addActionListener(e -> agregarUsuario());
-//        uvista.getBtnMostrar().addActionListener(e -> cargarDatosTabla());
-//        uvista.getBtnActualizar().addActionListener(e -> actualizarUsuario());
-//        uvista.getBtnInhabilitar().addActionListener(e -> inhabilitarUsuario());
-//        uvista.getTblUsuarios().getSelectionModel().addListSelectionListener(e -> seleccionarFila());
-//        uvista.setVisible(true);
-//        this.cargarDatosTabla();
-//    }
+        if (nombre.isEmpty() || email.isEmpty() || contrasena.isEmpty() || rol.isEmpty()) {
+            System.out.println("Por favor complete todos los campos.");
+            return;
+        }
+
+        try (Connection con = ConexionBDD.getConexion()) {
+            CallableStatement cs = con.prepareCall("{call sp_crear_usuario(?,?,?,?,?)}");
+            cs.setString(1, nombre);
+            cs.setString(2, email);
+            cs.setString(3, contrasena);
+            cs.setString(4, rol);
+            cs.registerOutParameter(5, Types.INTEGER);
+            cs.execute();
+
+            if (cs.getInt(5) > 0) {
+                uvista.limpiarCampos();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Iniciar sesión: valida credenciales y decide qué subclase instanciar según el rol
+    public Usuario iniciarSesion(String email, String contrasena) {
+        try (Connection con = ConexionBDD.getConexion()) {
+            CallableStatement cs = con.prepareCall("{call sp_validar_usuario(?,?)}");
+            cs.setString(1, email);
+            cs.setString(2, contrasena);
+            ResultSet rs = cs.executeQuery();
+
+            if (rs.next()) {
+                Usuario usuario = rs.getString("rol").equals("ProductOwner")
+                        ? new ProductOwner()
+                        : new Desarrollador();
+                usuario.setId(rs.getInt("id"));
+                usuario.setNombre(rs.getString("nombre"));
+                usuario.setEmail(email);
+                usuario.setRol(rs.getString("rol"));
+                return usuario;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null; // credenciales incorrectas
+    }
+
+    public void iniciar() {
+        uvista.getBtnCrear().addActionListener(e -> registrarUsuario());
+        uvista.setVisible(true);
+    }
+
 }

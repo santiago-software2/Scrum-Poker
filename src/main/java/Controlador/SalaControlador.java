@@ -6,6 +6,11 @@ package Controlador;
 
 import Modelo.Sala;
 import Vista.SalaVista;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 
 /**
@@ -13,10 +18,11 @@ import java.util.ArrayList;
  * @author SUPERTRONICA
  */
 public class SalaControlador {
+
     // REFERENCIA AL MODELO Y A LA VISTA
     private Sala smodelo;
     private SalaVista svista;
-    int cont = 1;
+//    int cont = 1;
 
     // CONSTRUCTORES
     public SalaControlador() {
@@ -27,105 +33,58 @@ public class SalaControlador {
         this.svista = svista;
     }
 
-    // CARGAR LA TABLA EN LA VISTA
-    public void cargarDatosTabla() {
-        svista.getModelo().setRowCount(0);
+    // CREAR sala (la crea el ProductOwner)
+    public void crearSala() {
+        String codigoAcceso = svista.getTxtCodigoAcceso();
 
-        ArrayList<String[]> lSalas = smodelo.obtenerSalas();
-        for (String[] sr : lSalas) {
-            Object[] fila = {sr[0], sr[1], sr[2]};
-            svista.getModelo().addRow(fila);
-            cont++;
-        }
-    }
-
-    // RECUPERAR LOS DATOS DE LA VISTA E INSERTAR
-    public void agregarSala() {
-        String nombre = svista.getTxtNombre();
-        String descripcion = svista.getTxtDescripcion();
-
-        if (!nombre.isEmpty() && !descripcion.isEmpty()) {
-            smodelo.setNombre(nombre);
-            smodelo.setDescripcion(descripcion);
-
-            int idGenerado = smodelo.insertarSalas();
-
-            if (idGenerado > -1) {
-                cargarDatosTabla();
-                svista.limpiarCampos();
-            }
-
-        } else {
-            System.out.println("Por favor complete todos los campos.");
-        }
-    }
-
-    public void seleccionarFila() {
-        int filaSeleccionada = svista.getTblSalas().getSelectedRow();
-        if (filaSeleccionada != -1) {
-            String nombre = svista.getModelo().getValueAt(filaSeleccionada, 1).toString();
-            String descripcion = svista.getModelo().getValueAt(filaSeleccionada, 2).toString();
-
-            svista.setTxtNombre(nombre);
-            svista.setTxtDescripcion(descripcion);
-        }
-    }
-
-    // ACTUALIZAR SALA SELECCIONADA
-    public void actualizarSala() {
-        int filaSeleccionada = svista.getTblSalas().getSelectedRow();
-        if (filaSeleccionada == -1) {
-            System.out.println("Seleccione una sala de la tabla para actualizar.");
+        if (codigoAcceso.isEmpty()) {
+            System.out.println("Ingrese un codigo de acceso para la sala.");
             return;
         }
 
-        int id = Integer.parseInt(svista.getModelo().getValueAt(filaSeleccionada, 0).toString());
-        String nombre = svista.getTxtNombre();
-        String descripcion = svista.getTxtDescripcion();
+        try (Connection con = ConexionBDD.getConexion()) {
+            CallableStatement cs = con.prepareCall("{call sp_crear_sala(?,?)}");
+            cs.setString(1, codigoAcceso);
+            cs.registerOutParameter(2, Types.INTEGER);
+            cs.execute();
 
-        if (!nombre.isEmpty() && !descripcion.isEmpty()) {
-            smodelo.setId(id);
-            smodelo.setNombre(nombre);
-            smodelo.setDescripcion(descripcion);
-
-            boolean actualizado = smodelo.actualizarSala();
-
-            if (actualizado) {
-                cargarDatosTabla();
-                svista.limpiarCampos();
-                svista.getTblSalas().clearSelection();
+            int idGenerado = cs.getInt(2);
+            if (idGenerado > 0) {
+                smodelo.setId(idGenerado);
+                smodelo.setCodigoAcceso(codigoAcceso);
+                smodelo.setEstado("Activa");
+                svista.mostrarMensaje("Sala creada. Codigo: " + codigoAcceso);
             }
-        } else {
-            System.out.println("Por favor complete todos los campos.");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
-    // INHABILITAR SALA SELECCIONADA
-    public void inhabilitarSala() {
-        int filaSeleccionada = svista.getTblSalas().getSelectedRow();
-        if (filaSeleccionada == -1) {
-            System.out.println("Seleccione una sala de la tabla para inhabilitar.");
-            return;
+    // UNIRSE a una sala existente (la usa el Desarrollador) buscando por codigo
+    public Sala unirseASala(String codigoAcceso) {
+        try (Connection con = ConexionBDD.getConexion()) {
+            CallableStatement cs = con.prepareCall("{call sp_buscar_sala(?)}");
+            cs.setString(1, codigoAcceso);
+            ResultSet rs = cs.executeQuery();
+
+            if (rs.next()) {
+                Sala sala = new Sala();
+                sala.setId(rs.getInt("id"));
+                sala.setCodigoAcceso(rs.getString("codigo_acceso"));
+                sala.setEstado(rs.getString("estado"));
+                return sala;
+            } else {
+                svista.mostrarMensaje("No existe una sala con ese codigo.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        int id = Integer.parseInt(svista.getModelo().getValueAt(filaSeleccionada, 0).toString());
-        smodelo.setId(id);
-
-        boolean inhabilitado = smodelo.inhabilitarSala();
-
-        if (inhabilitado) {
-            cargarDatosTabla();
-            svista.getTblSalas().clearSelection();
-        }
+        return null;
     }
 
     public void iniciar() {
-        svista.getBtnCrear().addActionListener(e -> agregarSala());
-        svista.getBtnMostrar().addActionListener(e -> cargarDatosTabla());
-        svista.getBtnActualizar().addActionListener(e -> actualizarSala());
-        svista.getBtnInhabilitar().addActionListener(e -> inhabilitarSala());
-        svista.getTblSalas().getSelectionModel().addListSelectionListener(e -> seleccionarFila());
+        svista.getBtnCrear().addActionListener(e -> crearSala());
+        svista.getBtnUnirse().addActionListener(e -> unirseASala(svista.getTxtCodigoAcceso()));
         svista.setVisible(true);
-        this.cargarDatosTabla();
     }
 }

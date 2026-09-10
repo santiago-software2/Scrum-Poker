@@ -29,15 +29,13 @@ public class Requerimiento {
     public Requerimiento() {
     }
 
-    public Requerimiento(int id, String titulo, String estado, String estimacionFinal, ProductOwner productOwner, Sala sala, PreparedStatement ejecutar, ResultSet resultado) {
+    public Requerimiento(int id, String titulo, String estado, String estimacionFinal, ProductOwner productOwner, Sala sala) {
         this.id = id;
         this.titulo = titulo;
         this.estado = estado;
         this.estimacionFinal = estimacionFinal;
         this.productOwner = productOwner;
         this.sala = sala;
-        this.ejecutar = ejecutar;
-        this.resultado = resultado;
     }
 
     public int getId() {
@@ -88,111 +86,111 @@ public class Requerimiento {
         this.sala = sala;
     }
 
-    //  EX CONTRALADOR 
-    //INSTANCIAR LA CONEXIÓN A LA BASE DE DATOS
-    ConexionBDD conectar = new ConexionBDD();
-    //CLASE QUE ME PERMITA CONECTARME DIRECTAMENTE A MYSQL
-    Connection conectado = (Connection) conectar.conectar();
-    //CLASE QUE ME PERMITE EJECUTAR MI SENTENCIA SQL
-    PreparedStatement ejecutar;
-    //OBTENER RESULTADOS DE LA CONSULTA
-    ResultSet resultado;
-
-    // MÉTODOS DE TRANSACCIONABILIDAD
-    public int insertarRequerimientos() {
-        int idGenerado = -1;
-        String sentenciaSQL = "{call sp_crear_requerimiento(?, ?, ?)}";
-
-        try (CallableStatement ejecutar = conectado.prepareCall(sentenciaSQL)) {
-            ejecutar.setString(1, titulo);
-            ejecutar.setString(2, estado);
-            ejecutar.registerOutParameter(3, Types.INTEGER);
-
-            ejecutar.execute();
-            idGenerado = ejecutar.getInt(3);
-
-            if (idGenerado > -1) {
-                System.out.println("Requerimiento creado en la BDD");
-            } else {
-                System.out.println("El requerimiento no se pudo crear.");
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Error en el conector MySQL JDBC: " + e.getMessage());
-        }
-
-        return idGenerado;
-    }
-
-    public ArrayList<String[]> obtenerRequerimientos() {
-        ArrayList<String[]> lregistros = new ArrayList<>();
-
-        try {
-            String sentenciaSQL = "{call sp_listar_requerimientos()}";
-            ejecutar = conectado.prepareCall(sentenciaSQL);
-            ResultSet res = ejecutar.executeQuery();
-
-            while (res.next()) {
-                String[] listaRequerimientos = new String[5]; 
-                listaRequerimientos[0] = res.getInt("id") + "";
-                listaRequerimientos[1] = res.getString("titulo");
-                listaRequerimientos[2] = res.getString("descripcion"); // Si lo tienes en la BD
-                listaRequerimientos[3] = res.getString("criterios");   // Si lo tienes en la BD
-                listaRequerimientos[4] = res.getString("estado");
-                lregistros.add(listaRequerimientos);
-            }
-            ejecutar.close();
-            return lregistros;
-        } catch (SQLException e) {
-            System.out.println("------" + e);
-        }
-        return lregistros;
-    }
-
-    public boolean actualizarRequerimiento() {
-        int filasA = 0;
-        String sentenciaSQL = "{call sp_actualizar_requerimiento(?, ?, ?, ?)}";
-        try (CallableStatement ejecutar = conectado.prepareCall(sentenciaSQL)) {
-
-            ejecutar.setInt(1, id);
-            ejecutar.setString(2, titulo);
-            ejecutar.setString(3, estado);
-            ejecutar.registerOutParameter(4, Types.INTEGER);
-
-            ejecutar.execute();
-            filasA = ejecutar.getInt(4);
-
-            if (filasA > 0) {
-                System.out.println("Requerimiento actualizado en la BDD");
-            } else {
-                System.out.println("No se encontró el requerimiento a actualizar.");
-            }
-        } catch (SQLException e) {
-            System.out.println("Error al actualizar requerimiento: " + e.getMessage());
-        }
-        return filasA > 0;
-    }
-
-    public boolean inhabilitarRequerimiento() {
-        int filasI = 0;
-        String sentenciaSQL = "{call sp_inhabilitar_requerimiento(?, ?)}";
-        try (CallableStatement ejecutar = conectado.prepareCall(sentenciaSQL)) {
-
-            ejecutar.setInt(1, id);
-            ejecutar.registerOutParameter(2, Types.INTEGER);
-
-            ejecutar.execute();
-            filasI = ejecutar.getInt(2);
-
-            if (filasI > 0) {
-                System.out.println("Requerimiento inhabilitado en la BDD");
-            } else {
-                System.out.println("No se encontró el requerimiento a inhabilitar.");
-            }
-        } catch (SQLException e) {
-            System.out.println("Error al inhabilitar requerimiento: " + e.getMessage());
-        }
-        return filasI > 0;
-    }
+//    //  EX CONTRALADOR 
+//    //INSTANCIAR LA CONEXIÓN A LA BASE DE DATOS
+//    ConexionBDD conectar = new ConexionBDD();
+//    //CLASE QUE ME PERMITA CONECTARME DIRECTAMENTE A MYSQL
+//    Connection conectado = (Connection) conectar.conectar();
+//    //CLASE QUE ME PERMITE EJECUTAR MI SENTENCIA SQL
+//    PreparedStatement ejecutar;
+//    //OBTENER RESULTADOS DE LA CONSULTA
+//    ResultSet resultado;
+//
+//    // MÉTODOS DE TRANSACCIONABILIDAD
+//    public int insertarRequerimientos() {
+//        int idGenerado = -1;
+//        String sentenciaSQL = "{call sp_crear_requerimiento(?, ?, ?)}";
+//
+//        try (CallableStatement ejecutar = conectado.prepareCall(sentenciaSQL)) {
+//            ejecutar.setString(1, titulo);
+//            ejecutar.setString(2, estado);
+//            ejecutar.registerOutParameter(3, Types.INTEGER);
+//
+//            ejecutar.execute();
+//            idGenerado = ejecutar.getInt(3);
+//
+//            if (idGenerado > -1) {
+//                System.out.println("Requerimiento creado en la BDD");
+//            } else {
+//                System.out.println("El requerimiento no se pudo crear.");
+//            }
+//
+//        } catch (SQLException e) {
+//            System.out.println("Error en el conector MySQL JDBC: " + e.getMessage());
+//        }
+//
+//        return idGenerado;
+//    }
+//
+//    public ArrayList<String[]> obtenerRequerimientos() {
+//        ArrayList<String[]> lregistros = new ArrayList<>();
+//
+//        try {
+//            String sentenciaSQL = "{call sp_listar_requerimientos()}";
+//            ejecutar = conectado.prepareCall(sentenciaSQL);
+//            ResultSet res = ejecutar.executeQuery();
+//
+//            while (res.next()) {
+//                String[] listaRequerimientos = new String[5]; 
+//                listaRequerimientos[0] = res.getInt("id") + "";
+//                listaRequerimientos[1] = res.getString("titulo");
+//                listaRequerimientos[2] = res.getString("descripcion"); // Si lo tienes en la BD
+//                listaRequerimientos[3] = res.getString("criterios");   // Si lo tienes en la BD
+//                listaRequerimientos[4] = res.getString("estado");
+//                lregistros.add(listaRequerimientos);
+//            }
+//            ejecutar.close();
+//            return lregistros;
+//        } catch (SQLException e) {
+//            System.out.println("------" + e);
+//        }
+//        return lregistros;
+//    }
+//
+//    public boolean actualizarRequerimiento() {
+//        int filasA = 0;
+//        String sentenciaSQL = "{call sp_actualizar_requerimiento(?, ?, ?, ?)}";
+//        try (CallableStatement ejecutar = conectado.prepareCall(sentenciaSQL)) {
+//
+//            ejecutar.setInt(1, id);
+//            ejecutar.setString(2, titulo);
+//            ejecutar.setString(3, estado);
+//            ejecutar.registerOutParameter(4, Types.INTEGER);
+//
+//            ejecutar.execute();
+//            filasA = ejecutar.getInt(4);
+//
+//            if (filasA > 0) {
+//                System.out.println("Requerimiento actualizado en la BDD");
+//            } else {
+//                System.out.println("No se encontró el requerimiento a actualizar.");
+//            }
+//        } catch (SQLException e) {
+//            System.out.println("Error al actualizar requerimiento: " + e.getMessage());
+//        }
+//        return filasA > 0;
+//    }
+//
+//    public boolean inhabilitarRequerimiento() {
+//        int filasI = 0;
+//        String sentenciaSQL = "{call sp_inhabilitar_requerimiento(?, ?)}";
+//        try (CallableStatement ejecutar = conectado.prepareCall(sentenciaSQL)) {
+//
+//            ejecutar.setInt(1, id);
+//            ejecutar.registerOutParameter(2, Types.INTEGER);
+//
+//            ejecutar.execute();
+//            filasI = ejecutar.getInt(2);
+//
+//            if (filasI > 0) {
+//                System.out.println("Requerimiento inhabilitado en la BDD");
+//            } else {
+//                System.out.println("No se encontró el requerimiento a inhabilitar.");
+//            }
+//        } catch (SQLException e) {
+//            System.out.println("Error al inhabilitar requerimiento: " + e.getMessage());
+//        }
+//        return filasI > 0;
+//    }
 
 }

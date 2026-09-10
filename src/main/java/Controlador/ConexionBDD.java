@@ -4,6 +4,7 @@
  */
 package Controlador;
 
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
@@ -12,20 +13,23 @@ import java.sql.SQLException;
  * @author SUPERTRONICA
  */
 public class ConexionBDD {
-    //ATRIBUTO
-    java.sql.Connection conexion;
-    
-     public java.sql.Connection conectar(){
-        //LANZAR CÓDIGO DE PRUEBA 
+
+    public static Connection getConexion() {
+        Connection conexion = null;
         try {
-            //Manera de Conexión a la Base de Datos
-            Class.forName("com.mysql.jdbc.Driver");
-            //Parámetros de conexión url/usuario/clave en mysql
-            conexion=DriverManager.getConnection("jdbc:mysql://localhost/scrum_poker?autoReconnect=true&useSSL=false","root","software_santiago1");
-            System.out.println("CONECTADO"); 
-        } catch (ClassNotFoundException | SQLException e)//CAPTURAR ERRORES 
-        {
-             System.out.println("ERROR DE CONEXION A LA BASE DE DATOS");
+            // Manera de Conexion a la Base de Datos
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // Parametros de conexion url/usuario/clave en mysql
+            conexion = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/scrum_poker?autoReconnect=true&useSSL=false&serverTimezone=UTC",
+                    "root",
+                    "software_santiago1"
+            );
+            System.out.println("CONECTADO");
+        } catch (ClassNotFoundException | java.sql.SQLException e) { // CAPTURAR ERRORES
+            System.out.println("ERROR DE CONEXION A LA BASE DE DATOS");
+            e.printStackTrace();
         }
         return conexion;
     }
