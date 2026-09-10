@@ -93,12 +93,17 @@ public class RequerimientoControlador {
     public void actualizarRequerimiento() {
         int filaSeleccionada = rvista.getTblRequerimientos().getSelectedRow();
         if (filaSeleccionada == -1) {
-            System.out.println("Seleccione un requerimiento de la tabla para actualizar.");
+            rvista.mostrarMensaje("Seleccione un requerimiento de la tabla para actualizar.");
+            return;
+        }
+
+        String titulo = rvista.getTxtTitulo();
+        if (titulo.isEmpty()) { 
+            rvista.mostrarMensaje("El titulo no puede estar vacio.");
             return;
         }
 
         int id = Integer.parseInt(rvista.getModelo().getValueAt(filaSeleccionada, 0).toString());
-        String titulo = rvista.getTxtTitulo();
         String estado = rvista.getCmbEstado().getSelectedItem().toString();
 
         try (Connection con = ConexionBDD.getConexion()) {
@@ -144,10 +149,21 @@ public class RequerimientoControlador {
         }
     }
 
+    public void seleccionarFila() {
+        int fila = rvista.getTblRequerimientos().getSelectedRow();
+        if (fila != -1) {
+            String titulo = rvista.getModelo().getValueAt(fila, 1).toString();
+            String estado = rvista.getModelo().getValueAt(fila, 2).toString();
+            rvista.setTxtTitulo(titulo);
+            rvista.setCmbEstado(estado);
+        }
+    }
+
     public void iniciar() {
         rvista.getBtnCrear().addActionListener(e -> crearRequerimiento());
         rvista.getBtnActualizar().addActionListener(e -> actualizarRequerimiento());
         rvista.getBtnInhabilitar().addActionListener(e -> inhabilitarRequerimiento());
+        rvista.getTblRequerimientos().getSelectionModel().addListSelectionListener(e -> seleccionarFila());
         rvista.getTblRequerimientos().getSelectionModel().addListSelectionListener(e -> {
         });
         rvista.setVisible(true);

@@ -46,6 +46,18 @@ public class RequerimientoVista extends javax.swing.JFrame {
         return btnVotar;
     }
 
+    public JButton getBtnVolver() {
+        return btnVolver;
+    }
+
+    public void setTxtTitulo(String texto) {
+        txtTitulo.setText(texto);
+    }
+
+    public void setCmbEstado(String estado) {
+        cmbEstado.setSelectedItem(estado);
+    }
+
     public void limpiarCampos() {
         txtTitulo.setText("");
     }
@@ -81,6 +93,7 @@ public class RequerimientoVista extends javax.swing.JFrame {
         btnActualizar = new javax.swing.JButton();
         btnInhabilitar = new javax.swing.JButton();
         btnVotar = new javax.swing.JButton();
+        btnVolver = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -90,7 +103,7 @@ public class RequerimientoVista extends javax.swing.JFrame {
 
         lblEstado.setText("ESTADO:");
 
-        cmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pendiente", "Estimado", "Inhabilitado" }));
+        cmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pendiente", "Estimado" }));
 
         tblRequerimientos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -126,6 +139,8 @@ public class RequerimientoVista extends javax.swing.JFrame {
 
         btnVotar.setText("VOTAR");
 
+        btnVolver.setText("VOLVER");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -158,6 +173,10 @@ public class RequerimientoVista extends javax.swing.JFrame {
                     .addComponent(txtTitulo)
                     .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(226, 226, 226))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnVolver)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -182,7 +201,9 @@ public class RequerimientoVista extends javax.swing.JFrame {
                     .addComponent(btnVotar))
                 .addGap(40, 40, 40)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addComponent(btnVolver)
+                .addContainerGap())
         );
 
         pack();
@@ -231,6 +252,7 @@ public class RequerimientoVista extends javax.swing.JFrame {
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnCrear;
     private javax.swing.JButton btnInhabilitar;
+    private javax.swing.JButton btnVolver;
     private javax.swing.JButton btnVotar;
     private javax.swing.JComboBox<String> cmbEstado;
     private javax.swing.JScrollPane jScrollPane1;

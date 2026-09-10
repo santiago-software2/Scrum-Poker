@@ -66,7 +66,12 @@ public class Main {
 
         vistaSala.getBtnCrearSala().addActionListener(e -> {
             if (usuarioLogueado instanceof ProductOwner) {
-                salaControlador.crearSala();
+                Sala salaCreada = salaControlador.crearSala();
+                if (salaCreada != null) {
+                    vistaSala.mostrarMensaje("Sala creada. Codigo: " + salaCreada.getCodigoAcceso());
+                    vistaSala.dispose();
+                    abrirRequerimientos(usuarioLogueado, salaCreada); // <-- ahora sigue el flujo
+                }
             } else {
                 vistaSala.mostrarMensaje("Solo un ProductOwner puede crear una sala.");
             }
@@ -77,8 +82,13 @@ public class Main {
             if (sala != null) {
                 vistaSala.mostrarMensaje("Te uniste a la sala: " + sala.getCodigoAcceso());
                 vistaSala.dispose();
-                // Aqui abrimos RequerimientoVista o VotoVista segun el rol
+                abrirRequerimientos(usuarioLogueado, sala);
             }
+        });
+
+        vistaSala.getBtnCerrarSesion().addActionListener(e -> {
+            vistaSala.dispose();
+            inicializarLogin(); // vuelve a abrir la pantalla de login, sin reiniciar el programa
         });
 
         vistaSala.setVisible(true);
@@ -115,23 +125,34 @@ public class Main {
                 Requerimiento requerimientoSeleccionado = new Requerimiento();
                 requerimientoSeleccionado.setId(idReq);
 
-                abrirVotacion((Desarrollador) usuarioLogueado, requerimientoSeleccionado);
+                abrirVotacion((Desarrollador) usuarioLogueado, requerimientoSeleccionado, sala);
             });
 
             vistaReq.setVisible(true);
         }
+        
+        vistaReq.getBtnVolver().addActionListener(e -> {
+            vistaReq.dispose();
+            abrirSala(usuarioLogueado); // regresa a la pantalla de Sala, sin reiniciar el programa
+        });
 
     }
 
-    private void abrirVotacion(Desarrollador desarrollador, Requerimiento requerimiento) {
+    private void abrirVotacion(Desarrollador desarrollador, Requerimiento requerimiento, Sala sala) {
         VotoVista vistaVoto = new VotoVista();
         Voto votoModelo = new Voto();
 
         VotoControlador votoControlador = new VotoControlador(
                 votoModelo, vistaVoto, desarrollador, requerimiento);
+        
+        vistaVoto.getBtnRevelar().setVisible(false);
 
         vistaVoto.getBtnVotar().addActionListener(e -> votoControlador.registrarVoto());
-        vistaVoto.getBtnRevelar().addActionListener(e -> votoControlador.revelarVotos());
+
+        vistaVoto.getBtnVolver().addActionListener(e -> {
+            vistaVoto.dispose();
+            abrirRequerimientos(desarrollador, sala);
+        });
 
         vistaVoto.setVisible(true);
     }

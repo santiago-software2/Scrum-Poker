@@ -24,6 +24,10 @@ public class VotoVista extends javax.swing.JFrame {
     public JButton getBtnRevelar() {
         return btnRevelar;
     }
+    
+    public JButton getBtnVolver() {
+        return btnVolver;
+    }
 
     public javax.swing.table.DefaultTableModel getModelo() {
         return (javax.swing.table.DefaultTableModel) tblVotos.getModel();
@@ -56,6 +60,7 @@ public class VotoVista extends javax.swing.JFrame {
         btnRevelar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblVotos = new javax.swing.JTable();
+        btnVolver = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -90,29 +95,35 @@ public class VotoVista extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblVotos);
 
+        btnVolver.setText("VOLVER");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(66, 66, 66)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(198, 198, 198)
+                            .addComponent(btnVotar)
+                            .addGap(42, 42, 42)
+                            .addComponent(btnRevelar))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(234, 234, 234)
+                            .addComponent(lblTitulo))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(lblCarta)
+                            .addGap(18, 18, 18)
+                            .addComponent(cmbCarta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(172, 172, 172)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(66, 66, 66)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(198, 198, 198)
-                        .addComponent(btnVotar)
-                        .addGap(42, 42, 42)
-                        .addComponent(btnRevelar))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(234, 234, 234)
-                        .addComponent(lblTitulo))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(lblCarta)
-                        .addGap(18, 18, 18)
-                        .addComponent(cmbCarta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(172, 172, 172)))
+                        .addComponent(btnVolver)))
                 .addContainerGap(66, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -130,7 +141,9 @@ public class VotoVista extends javax.swing.JFrame {
                     .addComponent(btnRevelar))
                 .addGap(39, 39, 39)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addComponent(btnVolver)
+                .addContainerGap())
         );
 
         pack();
@@ -173,6 +186,7 @@ public class VotoVista extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRevelar;
+    private javax.swing.JButton btnVolver;
     private javax.swing.JButton btnVotar;
     private javax.swing.JComboBox<String> cmbCarta;
     private javax.swing.JScrollPane jScrollPane1;

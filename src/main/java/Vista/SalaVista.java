@@ -24,6 +24,10 @@ public class SalaVista extends javax.swing.JFrame {
         return btnUnirse;
     }
 
+    public JButton getBtnCerrarSesion() {
+        return btnCerrarSesion;
+    }
+
     public void mostrarMensaje(String mensaje) {
         javax.swing.JOptionPane.showMessageDialog(this, mensaje);
     }
@@ -49,6 +53,7 @@ public class SalaVista extends javax.swing.JFrame {
         txtCodigo = new javax.swing.JTextField();
         btnUnirse = new javax.swing.JButton();
         btnCrearSala = new javax.swing.JButton();
+        btnCerrarSesion = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -60,24 +65,31 @@ public class SalaVista extends javax.swing.JFrame {
 
         btnCrearSala.setText("CREAR SALA");
 
+        btnCerrarSesion.setText("CERRAR SESION");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(142, 142, 142)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblCodigo)
-                        .addGap(33, 33, 33)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblSala)
-                            .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(130, 130, 130)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblCodigo)
+                                .addGap(33, 33, 33)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblSala)
+                                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnUnirse)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnCrearSala))))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnUnirse)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnCrearSala)))
-                .addContainerGap(122, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addComponent(btnCerrarSesion)))
+                .addContainerGap(134, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -92,7 +104,9 @@ public class SalaVista extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnUnirse)
                     .addComponent(btnCrearSala))
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addComponent(btnCerrarSesion)
+                .addContainerGap())
         );
 
         pack();
@@ -134,6 +148,7 @@ public class SalaVista extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCerrarSesion;
     private javax.swing.JButton btnCrearSala;
     private javax.swing.JButton btnUnirse;
     private javax.swing.JLabel lblCodigo;

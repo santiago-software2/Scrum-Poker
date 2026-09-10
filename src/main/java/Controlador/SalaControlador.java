@@ -34,12 +34,12 @@ public class SalaControlador {
     }
 
     // CREAR sala (la crea el ProductOwner)
-    public void crearSala() {
+    public Sala crearSala() {
         String codigoAcceso = svista.getTxtCodigo();
 
         if (codigoAcceso.isEmpty()) {
-            System.out.println("Ingrese un codigo de acceso para la sala.");
-            return;
+            svista.mostrarMensaje("Ingrese un codigo de acceso para la sala.");
+            return null;
         }
 
         try (Connection con = ConexionBDD.getConexion()) {
@@ -50,14 +50,16 @@ public class SalaControlador {
 
             int idGenerado = cs.getInt(2);
             if (idGenerado > 0) {
-                smodelo.setId(idGenerado);
-                smodelo.setCodigoAcceso(codigoAcceso);
-                smodelo.setEstado("Activa");
-                svista.mostrarMensaje("Sala creada. Codigo: " + codigoAcceso);
+                Sala sala = new Sala();
+                sala.setId(idGenerado);
+                sala.setCodigoAcceso(codigoAcceso);
+                sala.setEstado("Activa");
+                return sala;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     // UNIRSE a una sala existente (la usa el Desarrollador) buscando por codigo
