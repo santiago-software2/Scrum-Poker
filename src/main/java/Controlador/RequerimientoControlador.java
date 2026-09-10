@@ -98,23 +98,25 @@ public class RequerimientoControlador {
         }
 
         String titulo = rvista.getTxtTitulo();
-        if (titulo.isEmpty()) { 
+        if (titulo.isEmpty()) {
             rvista.mostrarMensaje("El titulo no puede estar vacio.");
             return;
         }
 
         int id = Integer.parseInt(rvista.getModelo().getValueAt(filaSeleccionada, 0).toString());
         String estado = rvista.getCmbEstado().getSelectedItem().toString();
+        String estimacionFinal = rvista.getTxtEstimacionFinal();
 
         try (Connection con = ConexionBDD.getConexion()) {
-            CallableStatement cs = con.prepareCall("{call sp_actualizar_requerimiento(?,?,?,?)}");
+            CallableStatement cs = con.prepareCall("{call sp_actualizar_requerimiento(?,?,?,?,?)}");
             cs.setInt(1, id);
             cs.setString(2, titulo);
             cs.setString(3, estado);
-            cs.registerOutParameter(4, Types.INTEGER);
+            cs.setString(4, estimacionFinal.isEmpty() ? null : estimacionFinal);
+            cs.registerOutParameter(5, Types.INTEGER);
             cs.execute();
 
-            if (cs.getInt(4) > 0) {
+            if (cs.getInt(5) > 0) {
                 cargarDatosTabla();
                 rvista.limpiarCampos();
                 rvista.getTblRequerimientos().clearSelection();
@@ -152,10 +154,10 @@ public class RequerimientoControlador {
     public void seleccionarFila() {
         int fila = rvista.getTblRequerimientos().getSelectedRow();
         if (fila != -1) {
-            String titulo = rvista.getModelo().getValueAt(fila, 1).toString();
-            String estado = rvista.getModelo().getValueAt(fila, 2).toString();
-            rvista.setTxtTitulo(titulo);
-            rvista.setCmbEstado(estado);
+            rvista.setTxtTitulo(rvista.getModelo().getValueAt(fila, 1).toString());
+            rvista.setCmbEstado(rvista.getModelo().getValueAt(fila, 2).toString());
+            Object estimacion = rvista.getModelo().getValueAt(fila, 3);
+            rvista.setTxtEstimacionFinal(estimacion == null ? "" : estimacion.toString());
         }
     }
 

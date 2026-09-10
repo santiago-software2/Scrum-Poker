@@ -99,14 +99,27 @@ public class Main {
         Requerimiento reqModelo = new Requerimiento();
 
         if (usuarioLogueado instanceof ProductOwner) {
-            // PO: CRUD completo, sin votar
             RequerimientoControlador reqControlador = new RequerimientoControlador(
                     reqModelo, vistaReq, sala, (ProductOwner) usuarioLogueado);
-            vistaReq.getBtnVotar().setVisible(false);
+
+            vistaReq.getBtnVotar().setText("VER VOTOS");
+            vistaReq.getBtnVotar().addActionListener(e -> {
+                int fila = vistaReq.getTblRequerimientos().getSelectedRow();
+                if (fila == -1) {
+                    vistaReq.mostrarMensaje("Selecciona un requerimiento para ver sus votos.");
+                    return;
+                }
+                int idReq = Integer.parseInt(vistaReq.getModelo().getValueAt(fila, 0).toString());
+                Requerimiento reqSeleccionado = new Requerimiento();
+                reqSeleccionado.setId(idReq);
+
+                abrirVotosPO((ProductOwner) usuarioLogueado, reqSeleccionado, sala);
+            });
+
             reqControlador.iniciar();
 
         } else {
-            // Desarrollador: solo ve la lista y vota
+
             vistaReq.getBtnCrear().setVisible(false);
             vistaReq.getBtnActualizar().setVisible(false);
             vistaReq.getBtnInhabilitar().setVisible(false);
@@ -130,7 +143,7 @@ public class Main {
 
             vistaReq.setVisible(true);
         }
-        
+
         vistaReq.getBtnVolver().addActionListener(e -> {
             vistaReq.dispose();
             abrirSala(usuarioLogueado); // regresa a la pantalla de Sala, sin reiniciar el programa
@@ -144,7 +157,7 @@ public class Main {
 
         VotoControlador votoControlador = new VotoControlador(
                 votoModelo, vistaVoto, desarrollador, requerimiento);
-        
+
         vistaVoto.getBtnRevelar().setVisible(false);
 
         vistaVoto.getBtnVotar().addActionListener(e -> votoControlador.registrarVoto());
@@ -152,6 +165,25 @@ public class Main {
         vistaVoto.getBtnVolver().addActionListener(e -> {
             vistaVoto.dispose();
             abrirRequerimientos(desarrollador, sala);
+        });
+
+        vistaVoto.setVisible(true);
+    }
+
+    private void abrirVotosPO(ProductOwner po, Requerimiento requerimiento, Sala sala) {
+        VotoVista vistaVoto = new VotoVista();
+        Voto votoModelo = new Voto();
+
+        VotoControlador votoControlador = new VotoControlador(
+                votoModelo, vistaVoto, null, requerimiento);
+
+        vistaVoto.getCmbCarta().setVisible(false);
+        vistaVoto.getBtnVotar().setVisible(false);
+
+        vistaVoto.getBtnRevelar().addActionListener(e -> votoControlador.revelarVotos());
+        vistaVoto.getBtnVolver().addActionListener(e -> {
+            vistaVoto.dispose();
+            abrirRequerimientos(po, sala);
         });
 
         vistaVoto.setVisible(true);

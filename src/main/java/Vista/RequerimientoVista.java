@@ -66,6 +66,14 @@ public class RequerimientoVista extends javax.swing.JFrame {
         javax.swing.JOptionPane.showMessageDialog(this, mensaje);
     }
 
+    public String getTxtEstimacionFinal() {
+        return txtEstimacion.getText();
+    }
+
+    public void setTxtEstimacionFinal(String valor) {
+        txtEstimacion.setText(valor == null ? "" : valor);
+    }
+
     /**
      * Creates new form RequerimientoVista
      */
@@ -94,6 +102,8 @@ public class RequerimientoVista extends javax.swing.JFrame {
         btnInhabilitar = new javax.swing.JButton();
         btnVotar = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
+        lblEstimacion = new javax.swing.JLabel();
+        txtEstimacion = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -141,6 +151,8 @@ public class RequerimientoVista extends javax.swing.JFrame {
 
         btnVolver.setText("VOLVER");
 
+        lblEstimacion.setText("ESTIMACION:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -163,20 +175,22 @@ public class RequerimientoVista extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                                 .addComponent(btnVotar)))
                         .addGap(106, 106, 106))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblTitulo)
-                    .addComponent(lblEstado))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtTitulo)
-                    .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(226, 226, 226))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnVolver)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblTitulo)
+                    .addComponent(lblEstado)
+                    .addComponent(lblEstimacion))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtTitulo)
+                    .addComponent(cmbEstado, 0, 115, Short.MAX_VALUE)
+                    .addComponent(txtEstimacion))
+                .addGap(226, 226, 226))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -184,16 +198,18 @@ public class RequerimientoVista extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addComponent(lblRequerimiento)
                 .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblTitulo)
-                        .addGap(38, 38, 38)
-                        .addComponent(lblEstado))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32)
-                        .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(38, 38, 38)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblTitulo))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblEstado)
+                    .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblEstimacion)
+                    .addComponent(txtEstimacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCrear)
                     .addComponent(btnActualizar)
@@ -201,7 +217,7 @@ public class RequerimientoVista extends javax.swing.JFrame {
                     .addComponent(btnVotar))
                 .addGap(40, 40, 40)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnVolver)
                 .addContainerGap())
         );
@@ -257,9 +273,11 @@ public class RequerimientoVista extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmbEstado;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblEstado;
+    private javax.swing.JLabel lblEstimacion;
     private javax.swing.JLabel lblRequerimiento;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JTable tblRequerimientos;
+    private javax.swing.JTextField txtEstimacion;
     private javax.swing.JTextField txtTitulo;
     // End of variables declaration//GEN-END:variables
 }
